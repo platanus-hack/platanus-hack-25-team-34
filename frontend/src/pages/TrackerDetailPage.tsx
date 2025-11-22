@@ -34,7 +34,7 @@ const TrackerDetailPage: React.FC = () => {
         setTracker(trackerData);
         setHoldings(holdingsData);
       } catch (err) {
-        setError('Failed to load tracker details');
+        setError('Error al cargar los detalles del portafolio');
         console.error(err);
       } finally {
         setLoading(false);
@@ -45,7 +45,7 @@ const TrackerDetailPage: React.FC = () => {
   }, [id]);
 
   const parseErrorMessage = (err: any): string => {
-    let errorMessage = 'Investment failed';
+    let errorMessage = 'La inversión falló';
     
     if (err.response?.data) {
       const errorData = err.response.data;
@@ -75,12 +75,12 @@ const TrackerDetailPage: React.FC = () => {
 
     const amount = parseFloat(investmentAmount);
     if (isNaN(amount) || amount <= 0) {
-      setInvestmentError('Please enter a valid amount');
+      setInvestmentError('Por favor ingrese un monto válido');
       return;
     }
 
     if (amount > user.balance_clp) {
-      setInvestmentError('Insufficient balance');
+      setInvestmentError('Saldo insuficiente');
       return;
     }
 
@@ -115,11 +115,11 @@ const TrackerDetailPage: React.FC = () => {
   };
 
   if (loading) {
-    return <div style={{ textAlign: 'center', marginTop: '50px' }}>Loading...</div>;
+    return <div style={{ textAlign: 'center', marginTop: '50px' }}>Cargando...</div>;
   }
 
   if (error || !tracker) {
-    return <div style={{ textAlign: 'center', marginTop: '50px', color: 'red' }}>{error || 'Tracker not found'}</div>;
+    return <div style={{ textAlign: 'center', marginTop: '50px', color: 'red' }}>{error || 'Portafolio no encontrado'}</div>;
   }
 
   return (
@@ -134,19 +134,19 @@ const TrackerDetailPage: React.FC = () => {
       <h1>{tracker.name}</h1>
       <p>{tracker.type} | {tracker.description}</p>
 
-      <p>YTD Return: {tracker.ytd_return >= 0 ? '+' : ''}{tracker.ytd_return}%</p>
-      <p>Risk: {tracker.risk_level} | Delay: {tracker.average_delay} days | Followers: {tracker.followers_count.toLocaleString()}</p>
+      <p>Retorno YTD: {tracker.ytd_return >= 0 ? '+' : ''}{tracker.ytd_return}%</p>
+      <p>Riesgo: {tracker.risk_level} | Retraso: {tracker.average_delay} días | Seguidores: {tracker.followers_count.toLocaleString()}</p>
 
       <ChartFromAPI />
 
-      <h2>Holdings</h2>
+      <h2>Tenencias</h2>
       {holdings.length > 0 ? (
         <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #ddd' }}>
           <thead>
             <tr>
               <th style={{ padding: '10px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>Ticker</th>
-              <th style={{ padding: '10px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>Company</th>
-              <th style={{ padding: '10px', textAlign: 'right', borderBottom: '1px solid #ddd' }}>Allocation</th>
+              <th style={{ padding: '10px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>Compañía</th>
+              <th style={{ padding: '10px', textAlign: 'right', borderBottom: '1px solid #ddd' }}>Asignación</th>
             </tr>
           </thead>
           <tbody>
@@ -160,7 +160,7 @@ const TrackerDetailPage: React.FC = () => {
           </tbody>
         </table>
       ) : (
-        <p>No holdings available</p>
+        <p>No hay tenencias disponibles</p>
       )}
 
       <div data-section="disclaimer">
@@ -214,26 +214,26 @@ const TrackerDetailPage: React.FC = () => {
       )}
 
       <div style={{ marginTop: '20px', padding: '20px', border: '2px solid #007bff', borderRadius: '8px' }}>
-        <h2>Invest in {tracker.name}</h2>
-        <p>Available: <strong>{formatCurrency(user?.balance_clp || 0)}</strong></p>
+        <h2>Invertir en {tracker.name}</h2>
+        <p>Disponible: <strong>{formatCurrency(user?.balance_clp || 0)}</strong></p>
 
         {investmentSuccess ? (
-          <p style={{ color: 'green' }}>✓ Investment successful! Redirecting...</p>
+          <p style={{ color: 'green' }}>✓ ¡Inversión exitosa! Redirigiendo...</p>
         ) : (
           <form onSubmit={handleInvest}>
-            <label>Amount (CLP):</label>
+            <label>Monto (CLP):</label>
             <input
               type="number"
               value={investmentAmount}
               onChange={(e) => setInvestmentAmount(e.target.value)}
-              placeholder="Enter amount"
+              placeholder="Ingresar monto"
               min="1"
               disabled={investing}
               style={{ width: '100%', padding: '10px', marginBottom: '10px' }}
             />
             {investmentError && <p style={{ color: 'red' }}>{String(investmentError)}</p>}
             <Button type="submit" disabled={investing} fullWidth size="large">
-              {investing ? 'Processing...' : 'Invest Now'}
+              {investing ? 'Procesando...' : 'Invertir Ahora'}
             </Button>
           </form>
         )}

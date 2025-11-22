@@ -43,9 +43,9 @@ function AdvancedChartGenerator() {
 
   return (
     <div>
-      <h2>Advanced Chart Generator</h2>
+      <h2>Generador de Gráficos Avanzado</h2>
       <Button onClick={generateChart} disabled={loading}>
-        {loading ? "Generating..." : "Generate Chart"}
+        {loading ? "Generando..." : "Generar Gráfico"}
       </Button>
 
       {error && <div style={{ color: "red" }}>Error: {error}</div>}

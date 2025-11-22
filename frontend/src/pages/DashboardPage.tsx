@@ -60,38 +60,38 @@ const DashboardPage: React.FC = () => {
     }).format(date);
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error || !portfolio) return <p style={{ color: 'red' }}>{error || 'Portfolio not found'}</p>;
+  if (loading) return <p>Cargando...</p>;
+  if (error || !portfolio) return <p style={{ color: 'red' }}>{error || 'Portafolio no encontrado'}</p>;
 
   return (
     <div style={{ padding: '20px', backgroundColor: '#F5F5F5', minHeight: '100vh' }}>
       <Navbar />
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <h1 style={{ color: '#333' }}>Portfolio - {user?.name}</h1>
+          <h1 style={{ color: '#333' }}>Portafolio - {user?.name}</h1>
           <div>
-            <Button onClick={() => navigate('/marketplace')} sx={{ mr: 2 }}>Browse Trackers</Button>
-            <Button onClick={logout}>Logout</Button>
+            <Button onClick={() => navigate('/marketplace')} sx={{ mr: 2 }}>Explorar Portafolios</Button>
+            <Button onClick={logout}>Cerrar Sesión</Button>
           </div>
         </div>
 
         <div style={{ backgroundColor: 'white', padding: '20px', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.05)', marginBottom: '30px' }}>
-          <h2 style={{ marginTop: 0, color: '#555' }}>Summary</h2>
+          <h2 style={{ marginTop: 0, color: '#555' }}>Resumen</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
             <div>
-              <div style={{ fontSize: '14px', color: '#888' }}>Available Balance</div>
+              <div style={{ fontSize: '14px', color: '#888' }}>Saldo Disponible</div>
               <div style={{ fontSize: '24px', fontWeight: 'bold' }}>{formatCurrency(portfolio.available_balance_clp)}</div>
             </div>
             <div>
-              <div style={{ fontSize: '14px', color: '#888' }}>Total Invested</div>
+              <div style={{ fontSize: '14px', color: '#888' }}>Total Invertido</div>
               <div style={{ fontSize: '24px', fontWeight: 'bold' }}>{formatCurrency(portfolio.total_invested_clp)}</div>
             </div>
             <div>
-              <div style={{ fontSize: '14px', color: '#888' }}>Current Value</div>
+              <div style={{ fontSize: '14px', color: '#888' }}>Valor Actual</div>
               <div style={{ fontSize: '24px', fontWeight: 'bold' }}>{formatCurrency(portfolio.total_current_value_clp)}</div>
             </div>
             <div>
-              <div style={{ fontSize: '14px', color: '#888' }}>Total P&L</div>
+              <div style={{ fontSize: '14px', color: '#888' }}>Ganancia/Pérdida Total</div>
               <div style={{ fontSize: '24px', fontWeight: 'bold', color: portfolio.total_profit_loss_clp >= 0 ? '#00C853' : '#FF5252' }}>
                 {portfolio.total_profit_loss_clp >= 0 ? '+' : ''}
                 {formatCurrency(portfolio.total_profit_loss_clp)} ({portfolio.total_profit_loss_percent.toFixed(2)}%)
@@ -100,7 +100,7 @@ const DashboardPage: React.FC = () => {
           </div>
         </div>
 
-        <h2 style={{ color: '#333' }}>Active Investments</h2>
+        <h2 style={{ color: '#333' }}>Inversiones Activas</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '20px', marginBottom: '40px' }}>
           {portfolio.active_trackers.length > 0 ? (
             portfolio.active_trackers.map((tracker) => (
@@ -112,22 +112,22 @@ const DashboardPage: React.FC = () => {
             ))
           ) : (
             <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px', backgroundColor: 'white', borderRadius: '12px' }}>
-              <p>No investments yet</p>
-              <button onClick={() => navigate('/marketplace')} style={{ padding: '10px 20px', cursor: 'pointer' }}>Start Investing</button>
+              <p>Aún no tienes inversiones activas</p>
+              <Button onClick={() => navigate('/marketplace')}>Comenzar a Invertir</Button>
             </div>
           )}
         </div>
 
-        <h2 style={{ color: '#333' }}>Investment History</h2>
+        <h2 style={{ color: '#333' }}>Historial de Inversiones</h2>
         <div style={{ backgroundColor: 'white', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.05)' }}>
           {transactions.length > 0 ? (
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead style={{ backgroundColor: '#f9f9f9' }}>
                 <tr>
-                  <th style={{ padding: '15px', textAlign: 'left', borderBottom: '1px solid #eee', color: '#666' }}>Date</th>
-                  <th style={{ padding: '15px', textAlign: 'left', borderBottom: '1px solid #eee', color: '#666' }}>Type</th>
-                  <th style={{ padding: '15px', textAlign: 'left', borderBottom: '1px solid #eee', color: '#666' }}>Tracker</th>
-                  <th style={{ padding: '15px', textAlign: 'right', borderBottom: '1px solid #eee', color: '#666' }}>Amount</th>
+                  <th style={{ padding: '15px', textAlign: 'left', borderBottom: '1px solid #eee', color: '#666' }}>Fecha</th>
+                  <th style={{ padding: '15px', textAlign: 'left', borderBottom: '1px solid #eee', color: '#666' }}>Tipo</th>
+                  <th style={{ padding: '15px', textAlign: 'left', borderBottom: '1px solid #eee', color: '#666' }}>Portafolio</th>
+                  <th style={{ padding: '15px', textAlign: 'right', borderBottom: '1px solid #eee', color: '#666' }}>Monto</th>
                 </tr>
               </thead>
               <tbody>
@@ -143,7 +143,7 @@ const DashboardPage: React.FC = () => {
                         fontSize: '12px',
                         fontWeight: 'bold'
                       }}>
-                        {tx.type}
+                        {tx.type === 'buy' ? 'Compra' : 'Venta'}
                       </span>
                     </td>
                     <td style={{ padding: '15px', fontWeight: '500' }}>{tx.tracker_name}</td>
@@ -155,7 +155,7 @@ const DashboardPage: React.FC = () => {
               </tbody>
             </table>
           ) : (
-            <p style={{ padding: '20px', textAlign: 'center', color: '#888' }}>No transaction history yet</p>
+            <p style={{ padding: '20px', textAlign: 'center', color: '#888' }}>Aún no hay historial de transacciones</p>
           )}
         </div>
       </div>

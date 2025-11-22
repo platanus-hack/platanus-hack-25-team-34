@@ -21,7 +21,7 @@ const LoginPage: React.FC = () => {
       await login(selectedUserId);
       navigate('/marketplace');
     } catch (err) {
-      setError('Failed to login. Please try again.');
+      setError('Error al iniciar sesión. Por favor intente nuevamente.');
       console.error(err);
     } finally {
       setLoading(false);
@@ -40,7 +40,7 @@ const LoginPage: React.FC = () => {
         </Typography>
         
         <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-          Dev Login - Select a mock user
+          Login de Desarrollo - Selecciona un usuario de prueba
         </Typography>
 
         <form onSubmit={handleLogin}>
@@ -51,9 +51,9 @@ const LoginPage: React.FC = () => {
               onChange={(e) => setSelectedUserId(Number(e.target.value))}
               sx={{ textAlign: 'left', borderRadius: 2 }}
             >
-              <MenuItem value={1}>User 1 - 1,000,000 CLP (Rich User)</MenuItem>
-              <MenuItem value={2}>User 2 - 20,000 CLP (Low Balance)</MenuItem>
-              <MenuItem value={3}>User 3 - 100,000 CLP (Medium Balance)</MenuItem>
+              <MenuItem value={1}>Usuario 1 - 1,000,000 CLP (Usuario Rico)</MenuItem>
+              <MenuItem value={2}>Usuario 2 - 20,000 CLP (Saldo Bajo)</MenuItem>
+              <MenuItem value={3}>Usuario 3 - 100,000 CLP (Saldo Medio)</MenuItem>
             </Select>
           </Box>
           
@@ -69,12 +69,12 @@ const LoginPage: React.FC = () => {
               fontSize: '16px',
             }}
           >
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
           </Button>
         </form>
         
         <Alert severity="info" sx={{ mt: 4, textAlign: 'left', borderRadius: 2 }}>
-          Note: This is a development login. No passwords required.
+          Nota: Este es un login de desarrollo. No se requieren contraseñas.
         </Alert>
       </Paper>
     </Container>

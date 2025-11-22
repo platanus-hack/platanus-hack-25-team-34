@@ -32,7 +32,7 @@ const MarketplacePage: React.FC = () => {
   }, []);
 
   if (loading) {
-    return <div style={{ textAlign: 'center', marginTop: '50px' }}>Loading trackers...</div>;
+    return <div style={{ textAlign: 'center', marginTop: '50px' }}>Cargando portafolios...</div>;
   }
 
   if (error) {
@@ -60,7 +60,7 @@ const MarketplacePage: React.FC = () => {
           gap: 2 // Consistent gap between sections
         }}>
           <Typography variant="body1" sx={{ color: '#333', fontWeight: 'bold' }}>
-            Welcome, {user?.name}
+            Bienvenido, {user?.name}
           </Typography>
 
           <Box sx={{ 
@@ -77,7 +77,7 @@ const MarketplacePage: React.FC = () => {
               flexShrink: 0 // Prevent balance from shrinking
             }}>
               <Typography variant="body1" sx={{ color: '#666' }}>
-                Balance:
+                Saldo:
               </Typography>
               <Typography variant="h6" sx={{ color: '#00C853', fontWeight: 'bold' }}>
                 {user?.balance_clp}
@@ -93,7 +93,7 @@ const MarketplacePage: React.FC = () => {
                 size="small"
                 onClick={logout}
               >
-                Logout
+                Cerrar Sesión
               </Button>
             </Box>
           </Box>
