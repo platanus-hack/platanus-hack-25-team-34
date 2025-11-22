@@ -12,7 +12,10 @@
  */
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import theme from './theme';
 
 // Pages
 import LoginPage from './pages/LoginPage';
@@ -81,13 +84,16 @@ function AppRoutes() {
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        {/* TODO: Add global navigation bar component */}
-        {/* TODO: Add global footer component */}
-        <AppRoutes />
-      </Router>
-    </AuthProvider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <AuthProvider>
+        <Router>
+          {/* TODO: Add global navigation bar component */}
+          {/* TODO: Add global footer component */}
+          <AppRoutes />
+        </Router>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

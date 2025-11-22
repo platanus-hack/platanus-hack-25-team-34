@@ -44,6 +44,9 @@ class PortfolioService:
             active_trackers.append({
                 "tracker_id": tracker.id,
                 "tracker_name": tracker.name,
+                "avatar_url": tracker.avatar_url,
+                "type": tracker.type,
+                "risk_level": tracker.risk_level,
                 "invested_amount_clp": item.invested_amount_clp,
                 "current_value_clp": item.current_value_clp,
                 "profit_loss_clp": pl,

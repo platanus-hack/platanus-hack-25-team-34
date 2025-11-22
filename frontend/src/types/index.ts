@@ -34,6 +34,9 @@ export interface TrackerHolding {
 export interface ActiveTracker {
   tracker_id: number;
   tracker_name: string;
+  avatar_url?: string;
+  type?: string;
+  risk_level?: string;
   invested_amount_clp: number;
   current_value_clp: number;
   profit_loss_clp: number;
@@ -63,4 +66,13 @@ export interface BalanceResponse {
   name: string;
   balance_clp: number;
   message: string;
+}
+
+export interface Transaction {
+  id: number;
+  type: string;
+  tracker_id: number;
+  tracker_name: string;
+  amount_clp: number;
+  timestamp: string;
 }

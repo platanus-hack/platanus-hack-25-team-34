@@ -7,6 +7,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Logo from './Logo';
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
@@ -17,25 +18,29 @@ const Navbar: React.FC = () => {
   }
 
   return (
-    <nav data-component="navbar">
-      <div data-section="navbar-container">
-        <div data-section="navbar-brand">
-          <h1>Hedgie</h1>
+    <nav data-component="navbar" style={{ backgroundColor: 'white', borderBottom: '1px solid #eee', padding: '10px 20px' }}>
+      <div data-section="navbar-container" style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div data-section="navbar-brand" style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }} onClick={() => navigate('/marketplace')}>
+          <Logo height={32} width={35} />
+          <h1 style={{ margin: 0, fontSize: '20px', fontWeight: '700', color: '#1D1D1F' }}>Hedgie</h1>
         </div>
         
-        <div data-section="navbar-links">
-          <button onClick={() => navigate('/marketplace')}>
+        <div data-section="navbar-links" style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+          <button onClick={() => navigate('/marketplace')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', fontWeight: '500', color: '#333' }}>
             Marketplace
           </button>
-          <button onClick={() => navigate('/account')}>
+          <button onClick={() => navigate('/dashboard')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', fontWeight: '500', color: '#333' }}>
+            Dashboard
+          </button>
+          <button onClick={() => navigate('/account')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', fontWeight: '500', color: '#333' }}>
             Mi Cuenta
           </button>
           {user && (
-            <span data-section="user-info">
+            <span data-section="user-info" style={{ fontSize: '14px', color: '#666', borderLeft: '1px solid #ddd', paddingLeft: '20px' }}>
               {user.name}
             </span>
           )}
-          <button onClick={logout}>
+          <button onClick={logout} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', color: '#FF5252' }}>
             Cerrar Sesión
           </button>
         </div>

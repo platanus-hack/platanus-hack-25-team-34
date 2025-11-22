@@ -96,4 +96,15 @@ export const userApi = {
   },
 };
 
+// Transaction API
+export const transactionApi = {
+  getUserTransactions: async (userId: number, limit?: number) => {
+    const url = limit 
+      ? `transactions/${userId}?limit=${limit}` 
+      : `transactions/${userId}`;
+    const response = await apiClient.get(url);
+    return response.data;
+  },
+};
+
 export default apiClient;

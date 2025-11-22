@@ -4,8 +4,9 @@ import { trackerApi } from '../services/api';
 import type { Tracker } from '../types';
 import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
+import TrackerCard from '../components/TrackerCard';
 
-import {Button, Card, CardContent, CardMedia, Typography, Box, Container} from '@mui/material';
+import {Button, Typography, Box, Container} from '@mui/material';
 
 const MarketplacePage: React.FC = () => {
   const [trackers, setTrackers] = useState<Tracker[]>([]);
@@ -40,23 +41,26 @@ const MarketplacePage: React.FC = () => {
 
   return (
       
-    <Box sx={{ backgroundColor: 'var(--bg-primary)', minHeight: '100vh', py: 4 }}>
+    <Box sx={{ backgroundColor: '#F5F5F5', minHeight: '100vh', py: 4 }}>
       <Navbar />
 
       <Container maxWidth="lg">
 
         <Box sx={{ 
-          backgroundColor: 'var(--card-bg)', 
+          backgroundColor: 'white', 
+          borderRadius: '12px',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
           px: { xs: 2, sm: 4 }, // Reduce padding on mobile
           py: 2, 
+          mb: 4,
           display: 'flex', 
           flexDirection: { xs: 'column', sm: 'row' }, // Stack vertically on mobile
           justifyContent: { xs: 'flex-start', sm: 'space-between' }, 
           alignItems: { xs: 'stretch', sm: 'center' },
           gap: 2 // Consistent gap between sections
         }}>
-          <Typography variant="body1" sx={{ color: 'var(--text-primary)' }}>
-            {user?.name}
+          <Typography variant="body1" sx={{ color: '#333', fontWeight: 'bold' }}>
+            Welcome, {user?.name}
           </Typography>
 
           <Box sx={{ 
@@ -72,10 +76,10 @@ const MarketplacePage: React.FC = () => {
               gap: 1,
               flexShrink: 0 // Prevent balance from shrinking
             }}>
-              <Typography variant="body1" sx={{ color: 'var(--text-secondary)' }}>
+              <Typography variant="body1" sx={{ color: '#666' }}>
                 Balance:
               </Typography>
-              <Typography variant="h6" sx={{ color: 'var(--accent-positive)' }}>
+              <Typography variant="h6" sx={{ color: '#00C853', fontWeight: 'bold' }}>
                 {user?.balance_clp}
               </Typography>
             </Box>
@@ -89,22 +93,9 @@ const MarketplacePage: React.FC = () => {
                 variant="outlined"
                 size="small"
                 sx={{
-                  color: 'var(--accent-info)',
-                  borderColor: 'var(--accent-info)',
-                  '&:hover': { borderColor: 'var(--accent-info)', backgroundColor: 'var(--accent-info-light)' }
-                }}
-                onClick={() => navigate('/dashboard')}
-              >
-                Dashboard
-              </Button>
-
-              <Button
-                variant="outlined"
-                size="small"
-                sx={{
-                  color: 'var(--text-secondary)',
-                  borderColor: 'var(--text-secondary)',
-                  '&:hover': { borderColor: 'var(--text-secondary)', backgroundColor: 'var(--text-secondary-light)' }
+                  color: '#666',
+                  borderColor: '#ccc',
+                  '&:hover': { borderColor: '#999', backgroundColor: '#f5f5f5' }
                 }}
                 onClick={logout}
               >
@@ -116,71 +107,40 @@ const MarketplacePage: React.FC = () => {
         
         
         <Typography
-          variant="h5"
+          variant="h4"
           component="h1"
-          sx={{ color: 'var(--text-primary)', mb: 4, fontWeight: 'bold' }}
+          sx={{ color: '#333', mb: 1, fontWeight: 'bold' }}
         >
-          Portafolios destacados: Politicians & Return Rates
+          Conoce a nuestros Hedgies preferidos
+        </Typography>
+        <Typography
+          variant="subtitle1"
+          sx={{ color: '#FF5252', mb: 4, fontWeight: 'bold' }}
+        >
+          Hedgies preferidos
         </Typography>
 
-        <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
+        <Box sx={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', 
+          gap: 3 
+        }}>
           {trackers.map((tracker) => (
-            <Card
+            <TrackerCard
               key={tracker.id}
+              tracker={tracker}
               onClick={() => navigate(`/tracker/${tracker.id}`)}
-              sx={{
-                backgroundColor: 'var(--card-bg)',
-                color: 'var(--text-primary)',
-                flex: '1 1 300px',
-                maxWidth: 350,
-              }}
-            >
-              <CardMedia
-                component="img"
-                height="200"
-                image={tracker.avatar_url}
-                alt={tracker.name}
-              />
-              <CardContent>
-                <Typography variant="h6" sx={{ color: 'var(--text-primary)', mb: 1 }}>
-                  {tracker.name}
-                </Typography>
-
-                <Typography
-                  variant="h5"
-                  sx={{ color: 'var(--accent-positive)', fontWeight: 'bold', mb: 0.5 }}
-                >
-                  {tracker.ytd_return}
-                </Typography>
-
-                <Typography variant="body2" sx={{ color: 'var(--text-secondary)', mb: 2 }}>
-                  {tracker.risk_level}
-                </Typography>
-
-                <Typography
-                  variant="caption"
-                  sx={{
-                    color: 'var(--accent-info)',
-                    backgroundColor: 'var(--accent-info-light)',
-                    padding: '4px 8px',
-                    borderRadius: '4px',
-                    display: 'inline-block',
-                  }}
-                >
-                  Hedge cherry picking
-                </Typography>
-              </CardContent>
-            </Card>
+            />
           ))}
         </Box>
 
-        <Box sx={{ mt: 4, textAlign: 'center' }}>
+        <Box sx={{ mt: 6, textAlign: 'center' }}>
           <Typography
             variant="body1"
             sx={{
-              color: 'var(--accent-info)',
+              color: '#666',
               cursor: 'pointer',
-              '&:hover': { textDecoration: 'underline' },
+              '&:hover': { textDecoration: 'underline', color: '#333' },
             }}
           >
             Ver nuestra más fina selección →
