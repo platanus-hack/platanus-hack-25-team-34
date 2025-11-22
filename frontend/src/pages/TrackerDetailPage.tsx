@@ -9,7 +9,7 @@ import Navbar from '../components/Navbar';
 const TrackerDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   
   const [tracker, setTracker] = useState<Tracker | null>(null);
   const [holdings, setHoldings] = useState<TrackerHolding[]>([]);
@@ -88,7 +88,13 @@ const TrackerDetailPage: React.FC = () => {
     setInvestmentError('');
 
     try {
-      await investmentApi.executeInvestment(user.id, tracker.id, amount);
+      const response = await investmentApi.executeInvestment(user.id, tracker.id, amount);
+      
+      // Update user balance in AuthContext
+      if (updateUser && response.remaining_balance !== undefined) {
+        updateUser({ ...user, balance_clp: response.remaining_balance });
+      }
+      
       setInvestmentSuccess(true);
       setInvestmentAmount('');
       
