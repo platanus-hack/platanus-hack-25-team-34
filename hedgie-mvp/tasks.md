@@ -174,6 +174,119 @@ Este plan combina el formato detallado de tareas con la estructura de paraleliza
 - Reemplazar estilos inline con componentes de diseño final
 - Migración de base de datos para cambios recientes en modelos (si es necesario)
 
+### 📋 Track 6: Portfolio/Dashboard Fixes and Enhancements
+
+**Status**: Planning Phase
+**Priority**: High (Blocking MVP completion)
+
+#### 6.1 Dashboard Page Bug Fixes
+- [ ] **Fix Network Connection Error**
+  - Issue: Frontend proxy failing to connect to backend
+  - Error: `connect ECONNREFUSED 172.26.0.3:8000`
+  - Investigation needed: Docker networking, Vite proxy configuration
+  - Verify backend is accessible from frontend container
+
+#### 6.2 Dashboard UI Requirements (Ultra Minimalistic)
+**Design Philosophy**: Zero styling, pure structure for design team
+
+**Required Information Display**:
+1. **User Section**
+   - User name
+   - Logout button
+   - Navigate to marketplace button
+
+2. **Portfolio Summary Section**
+   - Available balance (CLP)
+   - Total invested amount (CLP)
+   - Current portfolio value (CLP)
+   - Total Profit/Loss (CLP and %)
+   - Color indicator: green for profit, red for loss
+
+3. **Active Investments Section**
+   - List of all tracker investments
+   - For each tracker:
+     - Tracker name
+     - Amount invested (CLP)
+     - Current value (CLP)
+     - Individual P&L (CLP and %)
+     - View details button (navigate to tracker page)
+
+4. **Empty State** (when no investments)
+   - Message: "No investments yet"
+   - Call-to-action button to marketplace
+
+**Technical Requirements**:
+- Use only `<div>`, `<p>`, `<h1>-<h6>`, `<button>` tags
+- NO inline styles (remove all `style={{...}}`)
+- NO CSS classes
+- NO component libraries styling
+- Pure semantic HTML structure
+- Data should flow naturally top to bottom
+- Buttons should be functional but unstyled
+
+**Data Flow**:
+```
+DashboardPage
+├── User Header
+│   ├── User name (from AuthContext)
+│   ├── Browse Trackers (navigate)
+│   └── Logout (logout function)
+├── Summary
+│   ├── Available Balance
+│   ├── Total Invested
+│   ├── Current Value
+│   └── Total P&L
+└── Active Investments
+    ├── Tracker 1
+    │   ├── Name
+    │   ├── Invested
+    │   ├── Current
+    │   ├── P&L
+    │   └── View Details
+    └── Tracker 2
+        └── ...
+```
+
+#### 6.3 Testing Requirements
+- [x] Create comprehensive test suite for DashboardPage
+  - Loading states
+  - Error handling
+  - Empty portfolio
+  - Portfolio with investments
+  - Navigation
+  - Currency formatting
+  - Data refresh
+  - UI structure validation
+- [x] Create API client test suite
+  - Endpoint path correctness (trailing slash validation)
+  - Portfolio endpoint: NO trailing slash (critical fix)
+  - Request body field names (snake_case validation)
+  - URL construction consistency
+  - Error handling and propagation
+
+#### 6.4 Implementation Plan
+1. **Phase 1: Fix Connection Issues**
+   - Verify backend service is running
+   - Check Docker network configuration
+   - Test API endpoint directly
+   - Fix Vite proxy settings if needed
+
+2. **Phase 2: Strip All Styling**
+   - Remove all inline styles from DashboardPage.tsx
+   - Remove color styling (keep color logic for data attribute)
+   - Keep only structural HTML
+
+3. **Phase 3: Validate Structure**
+   - Run tests to ensure all data displays
+   - Verify navigation works
+   - Confirm error handling
+   - Test empty state
+
+4. **Phase 4: Documentation**
+   - Document HTML structure for design team
+   - Create example of how to add styles
+   - Document data attributes available for styling
+
 ### 📊 Métricas del Proyecto
 - **Backend**: 100% funcional, testeado y documentado
 - **Frontend**: 100% funcional (estilos minimalistas listos para reemplazar)
@@ -191,3 +304,7 @@ Este plan combina el formato detallado de tareas con la estructura de paraleliza
 - El modelo de datos incluye campos para YTD return y average_delay para transparencia con usuarios
 - Sistema de testing robusto permite desarrollo seguro del frontend
 - Backend es agnóstico al broker, facilitando futura integración real 
+
+
+
+

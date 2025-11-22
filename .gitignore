@@ -104,4 +104,5 @@ coverage/
 .next/
 .nuxt/
 .vercel
-*.pyc
+
+

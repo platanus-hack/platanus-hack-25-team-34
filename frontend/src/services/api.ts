@@ -60,7 +60,7 @@ export const investmentApi = {
 // Portfolio API
 export const portfolioApi = {
   getUserPortfolio: async (userId: number) => {
-    const response = await apiClient.get(`portfolio/${userId}/`);
+    const response = await apiClient.get(`portfolio/${userId}`);
     return response.data;
   },
 };
