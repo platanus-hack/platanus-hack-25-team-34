@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { trackerApi, investmentApi } from '../services/api';
 import type { Tracker, TrackerHolding } from '../types';
 import { useAuth } from '../context/AuthContext';
@@ -9,7 +9,6 @@ import { Button } from '@mui/material';
 
 const TrackerDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   const { user, updateUser } = useAuth();
   
   const [tracker, setTracker] = useState<Tracker | null>(null);
@@ -126,7 +125,6 @@ const TrackerDetailPage: React.FC = () => {
   return (
     <div style={{ padding: '20px' }}>
       <Navbar />
-      <Button onClick={() => navigate('/marketplace')} sx={{ mb: 2 }}>← Back to Marketplace</Button>
 
       <img 
         src={tracker.avatar_url} 
