@@ -20,6 +20,7 @@ const TrackerDetailPage: React.FC = () => {
   const [investing, setInvesting] = useState(false);
   const [investmentError, setInvestmentError] = useState<string>('');
   const [investmentSuccess, setInvestmentSuccess] = useState(false);
+  const [showDisclaimer, setShowDisclaimer] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -155,6 +156,56 @@ const TrackerDetailPage: React.FC = () => {
         </table>
       ) : (
         <p>No holdings available</p>
+      )}
+
+      <div data-section="disclaimer">
+        <button onClick={() => setShowDisclaimer(true)}>
+          Ver Disclaimer
+        </button>
+      </div>
+
+      {showDisclaimer && (
+        <div data-component="modal" style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000
+        }}>
+          <div data-section="modal-content" style={{
+            backgroundColor: 'white',
+            padding: '30px',
+            borderRadius: '8px',
+            maxWidth: '500px',
+            width: '90%',
+            position: 'relative'
+          }}>
+            <button 
+              onClick={() => setShowDisclaimer(false)}
+              style={{
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                background: 'none',
+                border: 'none',
+                fontSize: '24px',
+                cursor: 'pointer'
+              }}
+            >
+              ×
+            </button>
+            <h2>Disclaimer</h2>
+            <p>Disclaimer, Dani agrega un disclaimer aquí.</p>
+            <button onClick={() => setShowDisclaimer(false)}>
+              Cerrar
+            </button>
+          </div>
+        </div>
       )}
 
       <div style={{ marginTop: '20px', padding: '20px', border: '2px solid #007bff', borderRadius: '8px' }}>
