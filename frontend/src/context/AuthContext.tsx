@@ -27,6 +27,7 @@ interface AuthContextType {
   user: User | null;
   login: (userId: number) => Promise<void>;
   logout: () => void;
+  updateUser: (userData: User) => void;
   isAuthenticated: boolean;
   isLocalDevelopment: boolean;
 }
@@ -56,6 +57,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     localStorage.removeItem('hedgie_user');
   };
 
+  const updateUser = (userData: User) => {
+    setUser(userData);
+    localStorage.setItem('hedgie_user', JSON.stringify(userData));
+  };
+
   // Check localStorage on mount
   React.useEffect(() => {
     if (isLocalDevelopment) {
@@ -77,6 +83,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         user,
         login,
         logout,
+        updateUser,
         isAuthenticated: isLocalDevelopment || !!user,
         isLocalDevelopment,
       }}

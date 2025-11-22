@@ -4,6 +4,7 @@ import { trackerApi, investmentApi } from '../services/api';
 import type { Tracker, TrackerHolding } from '../types';
 import { useAuth } from '../context/AuthContext';
 import ChartFromAPI from '../components/Chart.jsx';
+import Navbar from '../components/Navbar';
 
 const TrackerDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -116,6 +117,7 @@ const TrackerDetailPage: React.FC = () => {
 
   return (
     <div style={{ padding: '20px' }}>
+      <Navbar />
       <button onClick={() => navigate('/marketplace')}>← Back to Marketplace</button>
 
       <img 

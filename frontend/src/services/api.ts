@@ -74,4 +74,26 @@ export const chartApi = {
   },
 };
 
+// User API
+export const userApi = {
+  deposit: async (userId: number, amountClp: number) => {
+    const response = await apiClient.post(`user/${userId}/deposit`, {
+      amount_clp: amountClp,
+    });
+    return response.data;
+  },
+
+  withdraw: async (userId: number, amountClp: number) => {
+    const response = await apiClient.post(`user/${userId}/withdraw`, {
+      amount_clp: amountClp,
+    });
+    return response.data;
+  },
+
+  getBalance: async (userId: number) => {
+    const response = await apiClient.get(`user/${userId}/balance`);
+    return response.data;
+  },
+};
+
 export default apiClient;

@@ -19,6 +19,7 @@ import LoginPage from './pages/LoginPage';
 import MarketplacePage from './pages/MarketplacePage';
 import TrackerDetailPage from './pages/TrackerDetailPage';
 import DashboardPage from './pages/DashboardPage';
+import UserAccountPage from './pages/UserAccountPage';
 
 // Protected Route wrapper
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -61,6 +62,14 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/account"
+        element={
+          <ProtectedRoute>
+            <UserAccountPage />
           </ProtectedRoute>
         }
       />

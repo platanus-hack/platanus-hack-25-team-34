@@ -9,7 +9,7 @@ from app.services import portfolio_service
 router = APIRouter(prefix="/portfolio", tags=["portfolio"])
 
 
-@router.post("/{user_id}")
+@router.get("/{user_id}")
 def get_user_portfolio(user_id: int, session: Session = Depends(get_session)):
     """
     Get the complete portfolio summary for a user.

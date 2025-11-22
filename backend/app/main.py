@@ -2,8 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 import app.seed
-from app.api import trackers, invest, portfolio, auth
-from app.api import chart
+from app.api import trackers, invest, portfolio, auth, chart, user
 
 app.seed.main()
 
@@ -24,6 +23,7 @@ app.include_router(trackers.router, prefix=settings.API_V1_STR)
 app.include_router(invest.router, prefix=settings.API_V1_STR)
 app.include_router(portfolio.router, prefix=settings.API_V1_STR)
 app.include_router(chart.router, prefix=settings.API_V1_STR)
+app.include_router(user.router, prefix=settings.API_V1_STR)
 
 
 @app.get("/")

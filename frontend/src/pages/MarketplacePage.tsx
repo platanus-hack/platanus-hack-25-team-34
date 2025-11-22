@@ -3,29 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { trackerApi } from '../services/api';
 import type { Tracker } from '../types';
 import { useAuth } from '../context/AuthContext';
+import Navbar from '../components/Navbar';
 
 import {Button, Card, CardContent, CardMedia, Typography, Box, Container} from '@mui/material';
-
-const politicians = [
-  {
-    name: 'Nancy Pelusa',
-    returnRate: '14.56%',
-    period: 'rentabilidad al año',
-    image: 'https://via.placeholder.com/300x200/333/fff?text=Nancy+Pelosi',
-  },
-  {
-    name: 'Dolan bets',
-    returnRate: '3.23%',
-    period: 'rentabilidad al trimestre',
-    image: 'https://via.placeholder.com/300x200/333/fff?text=Donald+Trump',
-  },
-  {
-    name: 'Xi xeñol',
-    returnRate: '1.26%',
-    period: 'rentabilidad al semestre',
-    image: 'https://via.placeholder.com/300x200/333/fff?text=Xi+Jinping',
-  },
-];
 
 const MarketplacePage: React.FC = () => {
   const [trackers, setTrackers] = useState<Tracker[]>([]);
@@ -50,15 +30,6 @@ const MarketplacePage: React.FC = () => {
     fetchTrackers();
   }, []);
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('es-CL', {
-      style: 'currency',
-      currency: 'CLP',
-      minimumFractionDigits: 0,
-    }).format(amount);
-  };
-
-
   if (loading) {
     return <div style={{ textAlign: 'center', marginTop: '50px' }}>Loading trackers...</div>;
   }
@@ -70,6 +41,7 @@ const MarketplacePage: React.FC = () => {
   return (
       
     <Box sx={{ backgroundColor: 'var(--bg-primary)', minHeight: '100vh', py: 4 }}>
+      <Navbar />
 
       <Container maxWidth="lg">
 
@@ -84,7 +56,7 @@ const MarketplacePage: React.FC = () => {
           gap: 2 // Consistent gap between sections
         }}>
           <Typography variant="body1" sx={{ color: 'var(--text-primary)' }}>
-            {user.name}
+            {user?.name}
           </Typography>
 
           <Box sx={{ 

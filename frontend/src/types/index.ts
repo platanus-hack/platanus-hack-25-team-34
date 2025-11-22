@@ -57,3 +57,10 @@ export interface InvestmentResponse {
   remaining_balance?: number;
   error?: string;
 }
+
+export interface BalanceResponse {
+  user_id: number;
+  name: string;
+  balance_clp: number;
+  message: string;
+}
