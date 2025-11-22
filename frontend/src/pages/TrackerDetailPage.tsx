@@ -90,10 +90,6 @@ const TrackerDetailPage: React.FC = () => {
       setInvestmentSuccess(true);
       setInvestmentAmount('');
       
-      // TODO: Update user balance in context
-      setTimeout(() => {
-        navigate('/dashboard');
-      }, 2000);
     } catch (err: any) {
       console.error('Investment error:', err.response?.data);
       setInvestmentError(parseErrorMessage(err));
