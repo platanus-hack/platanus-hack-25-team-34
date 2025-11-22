@@ -8,6 +8,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Logo from './Logo';
+import { Button } from '@mui/material';
 
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
@@ -27,10 +28,10 @@ const Navbar: React.FC = () => {
         
         <div data-section="navbar-links" style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
           <button onClick={() => navigate('/marketplace')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', fontWeight: '500', color: '#333' }}>
-            Marketplace
+            Portafolios
           </button>
           <button onClick={() => navigate('/dashboard')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', fontWeight: '500', color: '#333' }}>
-            Dashboard
+            Mis Inversiones
           </button>
           <button onClick={() => navigate('/account')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', fontWeight: '500', color: '#333' }}>
             Mi Cuenta
@@ -40,9 +41,9 @@ const Navbar: React.FC = () => {
               {user.name}
             </span>
           )}
-          <button onClick={logout} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', color: '#FF5252' }}>
+          <Button onClick={logout} size="small">
             Cerrar Sesión
-          </button>
+          </Button>
         </div>
       </div>
     </nav>

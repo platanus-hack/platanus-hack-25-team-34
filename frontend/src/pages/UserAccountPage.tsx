@@ -8,6 +8,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { userApi } from '../services/api';
 import { formatCLP, formatUSD, convertClpToUsd, CLP_TO_USD_RATE } from '../config/constants';
+import { Button } from '@mui/material';
 import type { BalanceResponse } from '../types';
 import Navbar from '../components/Navbar';
 
@@ -180,9 +181,9 @@ const UserAccountPage: React.FC = () => {
                   Equivalente: {formatUSD(convertClpToUsd(parseFloat(depositAmount)))}
                 </p>
               )}
-              <button type="submit" disabled={loading}>
+              <Button type="submit" disabled={loading}>
                 {loading ? 'Procesando...' : 'Depositar'}
-              </button>
+              </Button>
             </form>
           </div>
 
@@ -205,9 +206,9 @@ const UserAccountPage: React.FC = () => {
                   Equivalente: {formatUSD(convertClpToUsd(parseFloat(withdrawAmount)))}
                 </p>
               )}
-              <button type="submit" disabled={loading}>
+              <Button type="submit" disabled={loading}>
                 {loading ? 'Procesando...' : 'Retirar'}
-              </button>
+              </Button>
             </form>
           </div>
         </div>

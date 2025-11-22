@@ -90,13 +90,7 @@ const MarketplacePage: React.FC = () => {
               flexWrap: 'wrap' // Allow buttons to wrap on very small screens
             }}>
               <Button
-                variant="outlined"
                 size="small"
-                sx={{
-                  color: '#666',
-                  borderColor: '#ccc',
-                  '&:hover': { borderColor: '#999', backgroundColor: '#f5f5f5' }
-                }}
                 onClick={logout}
               >
                 Logout

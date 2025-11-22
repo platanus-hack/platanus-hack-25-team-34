@@ -41,12 +41,28 @@ const theme = createTheme({
   },
   components: {
     MuiButton: {
+      defaultProps: {
+        variant: 'outlined',
+        color: 'error',
+      },
       styleOverrides: {
         root: {
           borderRadius: 8,
           boxShadow: 'none',
+          textTransform: 'none',
+          fontWeight: 600,
           '&:hover': {
             boxShadow: 'none',
+          },
+        },
+        outlinedError: {
+          borderColor: 'rgb(255, 82, 82)',
+          color: 'rgb(255, 82, 82)',
+          borderWidth: '1.5px',
+          '&:hover': {
+            borderColor: 'rgb(255, 82, 82)',
+            backgroundColor: 'rgba(255, 82, 82, 0.04)',
+            borderWidth: '1.5px',
           },
         },
       },

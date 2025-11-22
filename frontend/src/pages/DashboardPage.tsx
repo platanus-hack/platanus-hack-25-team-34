@@ -5,6 +5,7 @@ import type { Portfolio, Transaction } from '../types';
 import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import ActiveTrackerCard from '../components/ActiveTrackerCard';
+import { Button } from '@mui/material';
 
 const DashboardPage: React.FC = () => {
   const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
@@ -69,8 +70,8 @@ const DashboardPage: React.FC = () => {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
           <h1 style={{ color: '#333' }}>Portfolio - {user?.name}</h1>
           <div>
-            <button onClick={() => navigate('/marketplace')} style={{ marginRight: '10px', padding: '8px 16px', cursor: 'pointer' }}>Browse Trackers</button>
-            <button onClick={logout} style={{ padding: '8px 16px', cursor: 'pointer' }}>Logout</button>
+            <Button onClick={() => navigate('/marketplace')} sx={{ mr: 2 }}>Browse Trackers</Button>
+            <Button onClick={logout}>Logout</Button>
           </div>
         </div>
 

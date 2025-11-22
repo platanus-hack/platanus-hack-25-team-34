@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 // @ts-ignore - react-vega doesn't have TypeScript definitions
 import { VegaEmbed } from "react-vega";
 import { chartApi } from "../services/api";
+import { Button } from "@mui/material";
 
 function AdvancedChartGenerator() {
   const [chartSpec, setChartSpec] = useState<any>(null);
@@ -43,9 +44,9 @@ function AdvancedChartGenerator() {
   return (
     <div>
       <h2>Advanced Chart Generator</h2>
-      <button onClick={generateChart} disabled={loading}>
+      <Button onClick={generateChart} disabled={loading}>
         {loading ? "Generating..." : "Generate Chart"}
-      </button>
+      </Button>
 
       {error && <div style={{ color: "red" }}>Error: {error}</div>}
 

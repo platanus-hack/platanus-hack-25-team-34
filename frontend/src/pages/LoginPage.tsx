@@ -62,17 +62,11 @@ const LoginPage: React.FC = () => {
           <Button 
             type="submit" 
             disabled={loading} 
-            variant="contained" 
             fullWidth 
             size="large"
             sx={{ 
-              backgroundColor: '#000', 
-              '&:hover': { backgroundColor: '#333' },
               py: 1.5,
-              borderRadius: 2,
-              textTransform: 'none',
               fontSize: '16px',
-              fontWeight: 600
             }}
           >
             {loading ? 'Logging in...' : 'Login'}

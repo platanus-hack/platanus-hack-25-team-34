@@ -5,6 +5,7 @@ import type { Tracker, TrackerHolding } from '../types';
 import { useAuth } from '../context/AuthContext';
 import ChartFromAPI from '../components/Chart';
 import Navbar from '../components/Navbar';
+import { Button } from '@mui/material';
 
 const TrackerDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -125,7 +126,7 @@ const TrackerDetailPage: React.FC = () => {
   return (
     <div style={{ padding: '20px' }}>
       <Navbar />
-      <button onClick={() => navigate('/marketplace')}>← Back to Marketplace</button>
+      <Button onClick={() => navigate('/marketplace')} sx={{ mb: 2 }}>← Back to Marketplace</Button>
 
       <img 
         src={tracker.avatar_url} 
@@ -165,9 +166,9 @@ const TrackerDetailPage: React.FC = () => {
       )}
 
       <div data-section="disclaimer">
-        <button onClick={() => setShowDisclaimer(true)}>
+        <Button onClick={() => setShowDisclaimer(true)}>
           Ver Disclaimer
-        </button>
+        </Button>
       </div>
 
       {showDisclaimer && (
@@ -207,9 +208,9 @@ const TrackerDetailPage: React.FC = () => {
             </button>
             <h2>Disclaimer</h2>
             <p>Disclaimer, Dani agrega un disclaimer aquí.</p>
-            <button onClick={() => setShowDisclaimer(false)}>
+            <Button onClick={() => setShowDisclaimer(false)}>
               Cerrar
-            </button>
+            </Button>
           </div>
         </div>
       )}
@@ -233,9 +234,9 @@ const TrackerDetailPage: React.FC = () => {
               style={{ width: '100%', padding: '10px', marginBottom: '10px' }}
             />
             {investmentError && <p style={{ color: 'red' }}>{String(investmentError)}</p>}
-            <button type="submit" disabled={investing} style={{ width: '100%', padding: '12px' }}>
+            <Button type="submit" disabled={investing} fullWidth size="large">
               {investing ? 'Processing...' : 'Invest Now'}
-            </button>
+            </Button>
           </form>
         )}
       </div>
