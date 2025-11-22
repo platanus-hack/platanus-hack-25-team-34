@@ -63,8 +63,8 @@ graph TB
 - React 18+ with TypeScript
 - React Router for navigation
 - Axios for API communication
-- Chart.js or Recharts for performance visualization
-- Tailwind CSS or Material-UI for styling
+- react-vega for interactive performance visualization
+- Material-UI for styling
 
 **Backend:**
 - Node.js with Express or NestJS

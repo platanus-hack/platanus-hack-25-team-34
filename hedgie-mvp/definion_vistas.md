@@ -25,6 +25,12 @@ Al ingresar un monto de inversión, abajo del punto aclaratorio que dice (A ${do
 Una vez se selecciona, se ingresa un ${Valor} en el placeholder. Una vez se presiona comprar, se mueve a otra pantalla que es la inicial 1) indicando el portafolio actualizado.
 
 5) Pantalla de usuario: 
+Monto total en CLP y monto total en dólares.
+Retiro de dinero.
+Ingreso/Depósito de dinero.
+
+
+
 
 6) Pantalla social/Updates: Aquí se muestran noticias sobre los protafolios. Se destacan aquellas que se relacionan con los portafolios donde el usuario ha invertido. Estas noticias contendrán contenido educativo, mostrando, por ejemplo, qué portafolio cambió, y explicando por qué razones pudo haber cambiado, de manera de mantener a los usuarios informados y proporcionar educación financiera.
 

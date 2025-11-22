@@ -90,9 +90,9 @@ docker-compose exec backend pytest --cov=app
 - Click any tracker to view details
 
 ### 3. View Tracker Details
-- See tracker description and stats
+- View tracker description and stats
 - View holdings table (stocks in portfolio)
-- Note: Performance chart is placeholder (TODO: Recharts)
+- Interactive performance chart powered by react-vega
 
 ### 4. Invest in Tracker
 1. Enter amount in CLP (e.g., 50000)
@@ -251,7 +251,7 @@ docker-compose exec backend ptw
 ## 🚧 Known Limitations & TODOs
 
 ### Frontend
-- ⚠️ **No charts**: Performance chart placeholder (needs Recharts)
+- ✅ **Charts**: Interactive performance charts implemented with react-vega
 - ⚠️ **Inline styles**: All components use inline CSS (easy to replace)
 - ⚠️ **No animations**: Static transitions
 - ⚠️ **No filters**: Marketplace doesn't filter/search yet
@@ -295,9 +295,8 @@ docker-compose exec backend ptw
 
 ### Phase 1: Design Integration
 1. Replace inline styles with design system components
-2. Implement Recharts for performance visualization
-3. Add loading skeletons and animations
-4. Improve mobile responsiveness
+2. Add loading skeletons and animations
+3. Improve mobile responsiveness
 
 ### Phase 2: Feature Enhancement
 1. Add filters and search to marketplace

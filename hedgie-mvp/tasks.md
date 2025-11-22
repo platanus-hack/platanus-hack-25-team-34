@@ -13,7 +13,7 @@ Este plan combina el formato detallado de tareas con la estructura de paraleliza
     - Configurar carga de variables de entorno (`python-dotenv`)
   - [x] 1.2 Inicializar Frontend (React + TS)
     - Crear proyecto React con TypeScript (Vite recomendado)
-    - Instalar dependencias: React Router, Axios, Recharts/Chart.js, Material-UI
+    - Instalar dependencias: React Router, Axios, react-vega, Material-UI
     - Configurar estructura de carpetas: `components`, `pages`, `services`, `types`
   - [x] 1.3 Dockerización
     - Crear `Dockerfile` para Backend
@@ -106,7 +106,7 @@ Este plan combina el formato detallado de tareas con la estructura de paraleliza
     - ✅ Muestra balance del usuario
   - [x] 6.4 Pantalla Detalle
     - ✅ Mostrar descripción, stats y tabla de holdings
-    - ✅ Placeholder para gráfico (recharts pendiente)
+    - ✅ Interactive performance chart with react-vega
     - ✅ Botón "Invertir" funcional
   - [x] 6.5 Flujo de Inversión
     - ✅ Input para monto en CLP
@@ -160,7 +160,7 @@ Este plan combina el formato detallado de tareas con la estructura de paraleliza
 
 ## Estado Actual del Proyecto
 
-### ✅ Completado (95% del MVP)
+### ✅ Completado (97% del MVP)
 - Backend API completamente funcional con 8 endpoints
 - Base de datos PostgreSQL con migraciones
 - 4 servicios implementados (Broker, Tracker, Investment, Portfolio)
@@ -168,9 +168,9 @@ Este plan combina el formato detallado de tareas con la estructura de paraleliza
 - Documentación técnica exhaustiva
 - Docker compose funcionando
 - **Frontend completo con todas las pantallas funcionales**
+- **Interactive charts with react-vega**
 
-### 🚧 Pendiente (5% del MVP)
-- Implementar gráficos con Recharts en página de detalle
+### 🚧 Pendiente (3% del MVP)
 - Reemplazar estilos inline con componentes de diseño final
 - Migración de base de datos para cambios recientes en modelos (si es necesario)
 

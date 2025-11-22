@@ -1,5 +1,38 @@
 # Hedgie MVP - Available Views
 
+## 🎨 ULTRA-MINIMALISTIC HTML STRUCTURE
+
+**Design Integration Ready**: All views have been stripped of inline styles and Material-UI components to provide clean semantic HTML for the design team.
+
+### Key Features:
+- **Zero inline styles**: No `style={{...}}` attributes
+- **Pure semantic HTML**: Only `<div>`, `<h1-h6>`, `<p>`, `<button>`, `<form>`, `<table>` tags
+- **Data attributes for styling**: `data-section`, `data-state`, `data-profit`, etc.
+- **Fully functional**: All business logic, navigation, and data flow preserved
+- **Easy to style**: Add CSS classes or styled components without touching logic
+
+### How to Add Styling:
+```css
+/* Target by data attributes */
+[data-page="dashboard"] { /* page-level styles */ }
+[data-section="header"] { /* section styles */ }
+[data-profit="positive"] { color: green; }
+[data-profit="negative"] { color: red; }
+[data-state="success"] { color: green; }
+[data-state="error"] { color: red; }
+```
+
+Or use component libraries:
+```tsx
+// Before (now):
+<button onClick={logout}>Logout</button>
+
+// After (with design system):
+<Button variant="outlined" onClick={logout}>Logout</Button>
+```
+
+---
+
 ## Quick Access URLs
 
 With `VITE_LOCAL_DEVELOPMENT=true`, all views are accessible directly:
@@ -235,7 +268,7 @@ View detailed information about a specific tracker and execute investments.
   - Followers Count
 
 - **Performance Chart:**
-  - Placeholder (TODO: Recharts implementation)
+  - Interactive Vega chart showing tracker performance over time
 
 - **Holdings Table:**
   - Stock ticker
