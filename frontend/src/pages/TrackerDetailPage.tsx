@@ -44,6 +44,31 @@ const TrackerDetailPage: React.FC = () => {
     fetchData();
   }, [id]);
 
+  const parseErrorMessage = (err: any): string => {
+    let errorMessage = 'Investment failed';
+    
+    if (err.response?.data) {
+      const errorData = err.response.data;
+      
+      // FastAPI validation error format
+      if (errorData.detail && Array.isArray(errorData.detail)) {
+        errorMessage = errorData.detail
+          .map((e: any) => e.msg || JSON.stringify(e))
+          .join(', ');
+      } 
+      // Simple string detail
+      else if (typeof errorData.detail === 'string') {
+        errorMessage = errorData.detail;
+      }
+      // Generic error object
+      else if (errorData.error) {
+        errorMessage = errorData.error;
+      }
+    }
+    
+    return errorMessage;
+  };
+
   const handleInvest = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user || !tracker) return;
@@ -72,7 +97,8 @@ const TrackerDetailPage: React.FC = () => {
         navigate('/dashboard');
       }, 2000);
     } catch (err: any) {
-      setInvestmentError(err.response?.data?.detail || 'Investment failed');
+      console.error('Investment error:', err.response?.data);
+      setInvestmentError(parseErrorMessage(err));
     } finally {
       setInvesting(false);
     }
@@ -198,12 +224,20 @@ const TrackerDetailPage: React.FC = () => {
         </p>
 
         {investmentSuccess ? (
-          <div>
+          <div style={{
+            padding: '15px',
+            backgroundColor: '#d4edda',
+            border: '1px solid #c3e6cb',
+            borderRadius: '4px',
+            color: '#155724',
+            textAlign: 'center',
+            fontWeight: 'bold'
+          }}>
             ✓ Investment successful! Redirecting to dashboard...
           </div>
         ) : (
           <form onSubmit={handleInvest}>
-            <div>
+            <div style={{ marginBottom: '15px' }}>
               <label htmlFor="amount" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
                 Amount (CLP):
               </label>
@@ -216,18 +250,55 @@ const TrackerDetailPage: React.FC = () => {
                 min="1"
                 step="1"
                 disabled={investing}
+                style={{
+                  width: '100%',
+                  padding: '10px',
+                  fontSize: '16px',
+                  border: '1px solid #ccc',
+                  borderRadius: '4px',
+                  boxSizing: 'border-box'
+                }}
               />
             </div>
 
             {investmentError && (
-              <div>
-                {investmentError}
+              <div style={{
+                marginTop: '10px',
+                padding: '10px',
+                backgroundColor: '#fee',
+                border: '1px solid #fcc',
+                borderRadius: '4px',
+                color: '#c00'
+              }}>
+                {String(investmentError)}
               </div>
             )}
 
             <button
               type="submit"
               disabled={investing}
+              style={{
+                width: '100%',
+                padding: '12px',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                color: 'white',
+                backgroundColor: investing ? '#6c757d' : '#007bff',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: investing ? 'not-allowed' : 'pointer',
+                transition: 'background-color 0.2s'
+              }}
+              onMouseEnter={(e) => {
+                if (!investing) {
+                  e.currentTarget.style.backgroundColor = '#0056b3';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!investing) {
+                  e.currentTarget.style.backgroundColor = '#007bff';
+                }
+              }}
             >
               {investing ? 'Processing...' : 'Invest Now'}
             </button>
