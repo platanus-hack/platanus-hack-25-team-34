@@ -7,9 +7,10 @@ import ChartFromAPI from '../components/Chart';
 import Navbar from '../components/Navbar';
 import HoldingsList from '../components/HoldingsList';
 import InvestmentInput from '../components/InvestmentInput';
-import { Button, Typography, Box, Container } from '@mui/material';
+import { Button, Typography, Box, Container, Breadcrumbs, Link } from '@mui/material';
 import CircleIcon from '@mui/icons-material/Circle';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 const TrackerDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -132,7 +133,7 @@ const TrackerDetailPage: React.FC = () => {
       <Navbar />
 
       <Container maxWidth="lg" sx={{ mt: 4 }}>
-        {/* Breadcrumbs - TODO: Enable for Mobile version
+        {/* Breadcrumbs */}
         <Breadcrumbs 
           separator={<NavigateNextIcon fontSize="small" />} 
           aria-label="breadcrumb"
@@ -143,7 +144,6 @@ const TrackerDetailPage: React.FC = () => {
           </Link>
           <Typography color="text.primary">{tracker.name}</Typography>
         </Breadcrumbs>
-        */}
 
         {/* Header */}
         <Typography variant="h3" component="h1" sx={{ fontWeight: 'bold', mb: 1 }}>
@@ -216,7 +216,8 @@ const TrackerDetailPage: React.FC = () => {
           </Box>
         </Box>
 
-        <ChartFromAPI />
+        {/* Mandar un dato de tracker.id */}
+        <ChartFromAPI trackerId={tracker.id} />
 
         <Box sx={{ mt: 4 }}>
           <HoldingsList holdings={holdings} />

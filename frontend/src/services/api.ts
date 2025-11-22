@@ -66,9 +66,10 @@ export const portfolioApi = {
 };
 
 export const chartApi = {
-  getChart: async () => {
+  getChart: async (trackerId?: number) => {
     const response = await apiClient.post("chart/test", {
       val: 1,
+      tracker_id: trackerId,
     });
     return response.data;
   },

@@ -1,10 +1,14 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 // @ts-ignore - react-vega doesn't have TypeScript definitions
 import { VegaEmbed } from "react-vega";
 import { chartApi } from "../services/api";
-import { Button } from "@mui/material";
+import { Button, Box, CircularProgress, Typography } from "@mui/material";
 
-function AdvancedChartGenerator() {
+interface ChartProps {
+  trackerId?: number;
+}
+
+function AdvancedChartGenerator({ trackerId }: ChartProps) {
   const [chartSpec, setChartSpec] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -16,12 +20,12 @@ function AdvancedChartGenerator() {
     }
   }, []);
 
-  const generateChart = async () => {
+  const generateChart = useCallback(async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await chartApi.getChart();
+      const response = await chartApi.getChart(trackerId);
 
       if (!response) {
         throw new Error("Failed to generate chart");
@@ -33,7 +37,13 @@ function AdvancedChartGenerator() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [trackerId]);
+
+  useEffect(() => {
+    if (trackerId) {
+      generateChart();
+    }
+  }, [trackerId, generateChart]);
 
   const vegaOptions = {
     actions: true,
@@ -42,30 +52,48 @@ function AdvancedChartGenerator() {
   };
 
   return (
-    <div>
-      <h2>Generador de Gráficos Avanzado</h2>
-      <Button onClick={generateChart} disabled={loading}>
-        {loading ? "Generando..." : "Generar Gráfico"}
-      </Button>
+    <Box sx={{ width: '100%', mt: 2 }}>
+      {!trackerId && (
+        <>
+          <Typography variant="h6" gutterBottom>Generador de Gráficos Avanzado</Typography>
+          <Button onClick={generateChart} disabled={loading} variant="contained" sx={{ mb: 2 }}>
+            {loading ? "Generando..." : "Generar Gráfico"}
+          </Button>
+        </>
+      )}
 
-      {error && <div style={{ color: "red" }}>Error: {error}</div>}
+      {loading && (
+        <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
+          <CircularProgress />
+        </Box>
+      )}
+
+      {error && (
+        <Typography color="error" sx={{ mb: 2 }}>
+          Error: {error}
+        </Typography>
+      )}
 
       {selectedData && (
-        <div
-          style={{
-            marginTop: "20px",
-            padding: "10px",
-            backgroundColor: "#f0f0f0",
+        <Box
+          sx={{
+            mt: 2,
+            p: 2,
+            bgcolor: 'background.paper',
+            borderRadius: 1,
+            border: '1px solid #e0e0e0'
           }}
         >
-          <h4>Selected Data Point:</h4>
-          <pre>{JSON.stringify(selectedData, null, 2)}</pre>
-        </div>
+          <Typography variant="subtitle2">Selected Data Point:</Typography>
+          <pre style={{ margin: 0, overflow: 'auto' }}>
+            {JSON.stringify(selectedData, null, 2)}
+          </pre>
+        </Box>
       )}
 
       {chartSpec && (
-        <div>
-          <h3>Generated Chart:</h3>
+        <Box sx={{ width: '100%', overflowX: 'auto' }}>
+          {!trackerId && <Typography variant="h6" gutterBottom>Generated Chart:</Typography>}
           <VegaEmbed
             spec={chartSpec}
             options={vegaOptions}
@@ -73,9 +101,9 @@ function AdvancedChartGenerator() {
               view.addEventListener("click", handleChartClick);
             }}
           />
-        </div>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 }
 
