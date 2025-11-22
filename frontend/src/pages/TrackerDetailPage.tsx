@@ -7,7 +7,10 @@ import ChartFromAPI from '../components/Chart';
 import Navbar from '../components/Navbar';
 import HoldingsList from '../components/HoldingsList';
 import InvestmentInput from '../components/InvestmentInput';
-import { Button, Typography } from '@mui/material';
+import { Button, Typography, Box, Container, Breadcrumbs, Link } from '@mui/material';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import CircleIcon from '@mui/icons-material/Circle';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 
 const TrackerDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -126,108 +129,212 @@ const TrackerDetailPage: React.FC = () => {
   }
 
   return (
-    <div style={{ padding: '20px' }}>
+    <Box sx={{ backgroundColor: '#fff', minHeight: '100vh', pb: 8 }}>
       <Navbar />
 
-      <img 
-        src={tracker.avatar_url} 
-        alt={tracker.name}
-        style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover' }}
-      />
-      <h1>{tracker.name}</h1>
-      <p>{tracker.type} | {tracker.description}</p>
+      <Container maxWidth="lg" sx={{ mt: 4 }}>
+        {/* Breadcrumbs */}
+        <Breadcrumbs 
+          separator={<NavigateNextIcon fontSize="small" />} 
+          aria-label="breadcrumb"
+          sx={{ mb: 2, color: '#666' }}
+        >
+          <Link underline="hover" color="inherit" href="/marketplace">
+            fund
+          </Link>
+          <Typography color="text.primary">{tracker.name}</Typography>
+        </Breadcrumbs>
 
-      <p>Retorno YTD: {tracker.ytd_return >= 0 ? '+' : ''}{tracker.ytd_return}%</p>
-      <p>Riesgo: {tracker.risk_level} | Retraso: {tracker.average_delay} días | Seguidores: {tracker.followers_count.toLocaleString()}</p>
+        {/* Header */}
+        <Typography variant="h3" component="h1" sx={{ fontWeight: 'bold', mb: 1 }}>
+          {tracker.name}
+        </Typography>
+        <Typography variant="subtitle1" sx={{ color: '#666', mb: 3 }}>
+          {tracker.description}
+        </Typography>
 
-      <ChartFromAPI />
-
-      <HoldingsList holdings={holdings} />
-
-      {showDisclaimer && (
-        <div data-component="modal" style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(0,0,0,0.5)',
-          display: 'flex',
+        {/* Metrics Row */}
+        <Box sx={{ 
+          display: 'flex', 
+          flexWrap: 'wrap', 
+          gap: 4, 
           alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1000
+          mb: 4,
+          borderBottom: '1px solid #eee',
+          pb: 4
         }}>
-          <div data-section="modal-content" style={{
-            backgroundColor: 'white',
-            padding: '30px',
-            borderRadius: '8px',
-            maxWidth: '500px',
-            width: '90%',
-            position: 'relative'
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Typography variant="body1" sx={{ color: '#666' }}>Retorno YTD:</Typography>
+            <Typography variant="body1" sx={{ 
+              color: tracker.ytd_return >= 0 ? '#00C853' : '#D32F2F', 
+              fontWeight: 'bold' 
+            }}>
+              {tracker.ytd_return >= 0 ? '+' : ''}{tracker.ytd_return}%
+            </Typography>
+          </Box>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Typography variant="body1" sx={{ color: '#666' }}>Riesgo:</Typography>
+            <CircleIcon sx={{ 
+              fontSize: 12, 
+              color: tracker.risk_level.toLowerCase() === 'bajo' || tracker.risk_level.toLowerCase() === 'low' ? '#00C853' : 
+                     tracker.risk_level.toLowerCase() === 'medio' || tracker.risk_level.toLowerCase() === 'medium' ? '#FFB300' : '#D32F2F'
+            }} />
+            <Typography variant="body1" sx={{ fontWeight: 'bold', textTransform: 'capitalize' }}>
+              {tracker.risk_level}
+            </Typography>
+          </Box>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Typography variant="body1" sx={{ color: '#666' }}>Retraso:</Typography>
+            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+              {tracker.average_delay} días
+            </Typography>
+          </Box>
+
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Typography variant="body1" sx={{ color: '#666' }}>Seguidores:</Typography>
+            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+              {tracker.followers_count.toLocaleString()}
+            </Typography>
+          </Box>
+        </Box>
+
+        {/* User Investment Section */}
+        <Box sx={{ mb: 4 }}>
+          <Typography variant="body1" sx={{ color: '#666', mb: 1 }}>
+            Tu inversión en {tracker.name}
+          </Typography>
+          <Typography variant="h3" sx={{ fontWeight: 'bold', mb: 1 }}>
+            $0
+          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <TrendingUpIcon sx={{ color: '#00C853' }} />
+            <Typography variant="body1" sx={{ color: '#00C853', fontWeight: 'bold' }}>
+              $0 (+0%) Hoy
+            </Typography>
+          </Box>
+        </Box>
+
+        <ChartFromAPI />
+
+        <Box sx={{ mt: 4 }}>
+          <HoldingsList holdings={holdings} />
+        </Box>
+
+        {/* Investment Form */}
+        <Box sx={{ mt: 6, maxWidth: 600 }}>
+          <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
+            Invertir
+          </Typography>
+          <Typography variant="body2" sx={{ color: '#666', mb: 3 }}>
+            Disponible: <strong>{formatCurrency(user?.balance_clp || 0)}</strong>
+          </Typography>
+
+          {investmentSuccess ? (
+            <Typography sx={{ color: 'green', fontWeight: 'bold', textAlign: 'center', py: 4 }}>
+              ✓ ¡Inversión exitosa!
+            </Typography>
+          ) : (
+            <form onSubmit={handleInvest}>
+              <InvestmentInput
+                value={investmentAmount}
+                onChange={setInvestmentAmount}
+                currency={currency}
+                onCurrencyChange={setCurrency}
+                disabled={investing}
+              />
+              {investmentError && (
+                <Typography color="error" align="center" sx={{ mt: 2 }}>
+                  {String(investmentError)}
+                </Typography>
+              )}
+              <Button 
+                type="submit" 
+                disabled={investing} 
+                fullWidth 
+                size="large" 
+                sx={{ 
+                  mt: 3,
+                  backgroundColor: '#000',
+                  color: '#fff',
+                  borderRadius: '50px',
+                  py: 1.5,
+                  textTransform: 'none',
+                  fontSize: '1.1rem',
+                  fontWeight: 'bold',
+                  '&:hover': {
+                    backgroundColor: '#333'
+                  }
+                }}
+              >
+                {investing ? 'Procesando...' : 'Invertir'}
+              </Button>
+            </form>
+          )}
+        </Box>
+
+        {/* Disclaimer Link */}
+        <Typography 
+          onClick={() => setShowDisclaimer(true)}
+          sx={{ 
+            mt: 8, 
+            textAlign: 'center', 
+            color: 'text.secondary', 
+            cursor: 'pointer',
+            textDecoration: 'underline',
+            fontSize: '0.875rem'
+          }}
+        >
+          Ver Disclaimer
+        </Typography>
+
+        {/* Disclaimer Modal */}
+        {showDisclaimer && (
+          <div data-component="modal" style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000
           }}>
-            <button 
-              onClick={() => setShowDisclaimer(false)}
-              style={{
-                position: 'absolute',
-                top: '10px',
-                right: '10px',
-                background: 'none',
-                border: 'none',
-                fontSize: '24px',
-                cursor: 'pointer'
-              }}
-            >
-              ×
-            </button>
-            <h2>Disclaimer</h2>
-            <p>Disclaimer, Dani agrega un disclaimer aquí.</p>
-            <Button onClick={() => setShowDisclaimer(false)}>
-              Cerrar
-            </Button>
+            <div data-section="modal-content" style={{
+              backgroundColor: 'white',
+              padding: '30px',
+              borderRadius: '8px',
+              maxWidth: '500px',
+              width: '90%',
+              position: 'relative'
+            }}>
+              <button 
+                onClick={() => setShowDisclaimer(false)}
+                style={{
+                  position: 'absolute',
+                  top: '10px',
+                  right: '10px',
+                  background: 'none',
+                  border: 'none',
+                  fontSize: '24px',
+                  cursor: 'pointer'
+                }}
+              >
+                ×
+              </button>
+              <h2>Disclaimer</h2>
+              <p>Disclaimer, Dani agrega un disclaimer aquí.</p>
+              <Button onClick={() => setShowDisclaimer(false)}>
+                Cerrar
+              </Button>
+            </div>
           </div>
-        </div>
-      )}
-
-      <div style={{ marginTop: '20px', padding: '20px', border: '2px solid #007bff', borderRadius: '8px' }}>
-        <h2>Invertir en {tracker.name}</h2>
-        <p>Disponible: <strong>{formatCurrency(user?.balance_clp || 0)}</strong></p>
-
-        {investmentSuccess ? (
-          <p style={{ color: 'green' }}>✓ ¡Inversión exitosa! Redirigiendo...</p>
-        ) : (
-          <form onSubmit={handleInvest}>
-            <label>Monto (CLP):</label>
-            <input
-              type="number"
-              value={investmentAmount}
-              onChange={(e) => setInvestmentAmount(e.target.value)}
-              placeholder="Ingresar monto"
-              min="1"
-              disabled={investing}
-              style={{ width: '100%', padding: '10px', marginBottom: '10px' }}
-            />
-            {investmentError && <p style={{ color: 'red' }}>{String(investmentError)}</p>}
-            <Button type="submit" disabled={investing} fullWidth size="large">
-              {investing ? 'Procesando...' : 'Invertir Ahora'}
-            </Button>
-          </form>
         )}
-      </div>
-
-      <Typography 
-        onClick={() => setShowDisclaimer(true)}
-        sx={{ 
-          mt: 4, 
-          textAlign: 'center', 
-          color: 'text.secondary', 
-          cursor: 'pointer',
-          textDecoration: 'underline',
-          fontSize: '0.875rem'
-        }}
-      >
-        Ver Disclaimer
-      </Typography>
-    </div>
+      </Container>
+    </Box>
   );
 };
 
