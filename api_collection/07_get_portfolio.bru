@@ -1,0 +1,62 @@
+meta {
+  name: Get User Portfolio
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{base_url}}/portfolio/{{user_id}}
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  # Get User Portfolio
+  
+  Get the user's complete portfolio including all active tracker investments and P&L calculations.
+  
+  ## Path Parameters
+  - `user_id`: ID of the user
+  
+  ## Expected Response (With Investments)
+  ```json
+  {
+    "user_id": 1,
+    "available_balance_clp": 950000.0,
+    "total_invested_clp": 50000.0,
+    "current_value_clp": 52500.0,
+    "total_pnl_clp": 2500.0,
+    "total_pnl_percent": 5.0,
+    "active_trackers": [
+      {
+        "tracker_id": 1,
+        "tracker_name": "Nancy Pelosi",
+        "tracker_type": "congress",
+        "amount_invested_clp": 50000.0,
+        "allocation_percent": 20.0,
+        "current_value_clp": 52500.0,
+        "pnl_clp": 2500.0,
+        "pnl_percent": 5.0,
+        "invested_at": "2025-11-22T06:30:00Z"
+      }
+    ]
+  }
+  ```
+  
+  ## Expected Response (No Investments)
+  ```json
+  {
+    "user_id": 1,
+    "available_balance_clp": 1000000.0,
+    "total_invested_clp": 0.0,
+    "current_value_clp": 0.0,
+    "total_pnl_clp": 0.0,
+    "total_pnl_percent": 0.0,
+    "active_trackers": []
+  }
+  ```
+}

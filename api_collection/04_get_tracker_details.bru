@@ -1,0 +1,40 @@
+meta {
+  name: Get Tracker Details
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{base_url}}/trackers/{{tracker_id}}
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  # Get Tracker Details
+  
+  Get detailed information about a specific tracker.
+  
+  ## Path Parameters
+  - `tracker_id`: ID of the tracker (1 or 2 in seed data)
+  
+  ## Expected Response
+  ```json
+  {
+    "id": 1,
+    "name": "Nancy Pelosi",
+    "type": "congress",
+    "description": "Former Speaker of the House with notable portfolio performance.",
+    "ytd_return": 45.0,
+    "average_delay": 15.0,
+    "risk_level": "high",
+    "followers_count": 15234,
+    "avatar_url": "https://example.com/pelosi.jpg",
+    "created_at": "2025-11-22T06:00:00Z"
+  }
+  ```
+}

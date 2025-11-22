@@ -1,0 +1,46 @@
+meta {
+  name: Get Tracker Holdings
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{base_url}}/trackers/{{tracker_id}}/holdings
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  # Get Tracker Holdings
+  
+  Get the portfolio composition (stock holdings) of a tracker.
+  
+  ## Path Parameters
+  - `tracker_id`: ID of the tracker
+  
+  ## Expected Response
+  ```json
+  [
+    {
+      "id": 1,
+      "tracker_id": 1,
+      "ticker": "NVDA",
+      "company_name": "NVIDIA Corporation",
+      "percentage": 25.0,
+      "last_updated": "2025-11-22T06:00:00Z"
+    },
+    {
+      "id": 2,
+      "tracker_id": 1,
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "percentage": 20.0,
+      "last_updated": "2025-11-22T06:00:00Z"
+    }
+  ]
+  ```
+}

@@ -1,0 +1,58 @@
+meta {
+  name: Execute Investment
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{base_url}}/invest
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "user_id": {{user_id}},
+    "tracker_id": {{tracker_id}},
+    "amount_clp": 50000,
+    "allocation_percent": 20
+  }
+}
+
+docs {
+  # Execute Investment
+  
+  Invest an amount in CLP to copy-trade a specific tracker.
+  
+  ## Request Body
+  - `user_id`: ID of the user making the investment
+  - `tracker_id`: ID of the tracker to follow
+  - `amount_clp`: Amount to invest in Chilean Pesos
+  - `allocation_percent`: Percentage of portfolio to allocate (0-100)
+  
+  ## Validations
+  - Amount must be positive
+  - User must have sufficient balance
+  - Allocation percent must be between 0 and 100
+  
+  ## Expected Response (Success)
+  ```json
+  {
+    "success": true,
+    "message": "Investment successful",
+    "transaction_id": 1,
+    "remaining_balance": 950000.0
+  }
+  ```
+  
+  ## Expected Response (Insufficient Balance)
+  ```json
+  {
+    "detail": "Insufficient balance"
+  }
+  ```
+}

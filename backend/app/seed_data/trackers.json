@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Nancy Pelosi",
+    "type": "politician",
+    "avatar_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Nancy_Pelosi_official_portrait_2019.jpg/220px-Nancy_Pelosi_official_portrait_2019.jpg",
+    "description": "Follow the trades of the former Speaker of the House.",
+    "ytd_return": 25.5,
+    "average_delay": 45,
+    "risk_level": "High",
+    "followers_count": 1200,
+    "holdings": [
+      {"ticker": "NVDA", "company_name": "NVIDIA Corp", "allocation_percent": 40.0},
+      {"ticker": "MSFT", "company_name": "Microsoft Corp", "allocation_percent": 30.0},
+      {"ticker": "AAPL", "company_name": "Apple Inc", "allocation_percent": 30.0}
+    ]
+  },
+  {
+    "name": "Warren Buffett",
+    "type": "fund",
+    "avatar_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Warren_Buffett_KU_Visit.jpg/220px-Warren_Buffett_KU_Visit.jpg",
+    "description": "The Oracle of Omaha's value investing strategy.",
+    "ytd_return": 15.2,
+    "average_delay": 90,
+    "risk_level": "Low",
+    "followers_count": 5000,
+    "holdings": [
+      {"ticker": "AAPL", "company_name": "Apple Inc", "allocation_percent": 50.0},
+      {"ticker": "BAC", "company_name": "Bank of America", "allocation_percent": 20.0},
+      {"ticker": "AXP", "company_name": "American Express", "allocation_percent": 30.0}
+    ]
+  }
+]

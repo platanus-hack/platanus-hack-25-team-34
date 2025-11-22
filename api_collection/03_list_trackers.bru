@@ -1,0 +1,45 @@
+meta {
+  name: List All Trackers
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{base_url}}/trackers
+  body: none
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+docs {
+  # List All Trackers
+  
+  Get all available trackers (Whales) in the marketplace.
+  
+  ## Expected Response
+  ```json
+  [
+    {
+      "id": 1,
+      "name": "Nancy Pelosi",
+      "type": "congress",
+      "description": "...",
+      "ytd_return": 45.0,
+      "average_delay": 15.0,
+      "risk_level": "high",
+      "followers_count": 15234,
+      "avatar_url": "https://...",
+      "created_at": "2025-11-22T..."
+    },
+    {
+      "id": 2,
+      "name": "Warren Buffett",
+      "type": "hedge_fund",
+      ...
+    }
+  ]
+  ```
+}

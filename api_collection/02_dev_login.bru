@@ -1,0 +1,41 @@
+meta {
+  name: Dev Login
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{base_url}}/auth/dev-login
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "user_id": {{user_id}}
+  }
+}
+
+docs {
+  # Dev Login
+  
+  Development-only login endpoint. Select a mock user by ID.
+  
+  ## Available Users
+  - User 1: Alice Johnson (1,000,000 CLP)
+  - User 2: Bob Smith (20,000 CLP)
+  - User 3: Charlie Brown (100,000 CLP)
+  
+  ## Expected Response
+  ```json
+  {
+    "user_id": 1,
+    "name": "Alice Johnson",
+    "balance_clp": 1000000.0
+  }
+  ```
+}

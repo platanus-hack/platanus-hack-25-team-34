@@ -1,0 +1,5 @@
+[
+  {"name": "UserConPlata", "balance_clp": 1000000},
+  {"name": "UserPobre", "balance_clp": 20000},
+  {"name": "UserNormal", "balance_clp": 100000}
+]
