@@ -7,8 +7,7 @@ import ChartFromAPI from '../components/Chart';
 import Navbar from '../components/Navbar';
 import HoldingsList from '../components/HoldingsList';
 import InvestmentInput from '../components/InvestmentInput';
-import { Button, Typography, Box, Container, Breadcrumbs, Link } from '@mui/material';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { Button, Typography, Box, Container } from '@mui/material';
 import CircleIcon from '@mui/icons-material/Circle';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 
@@ -133,7 +132,7 @@ const TrackerDetailPage: React.FC = () => {
       <Navbar />
 
       <Container maxWidth="lg" sx={{ mt: 4 }}>
-        {/* Breadcrumbs */}
+        {/* Breadcrumbs - TODO: Enable for Mobile version
         <Breadcrumbs 
           separator={<NavigateNextIcon fontSize="small" />} 
           aria-label="breadcrumb"
@@ -144,6 +143,7 @@ const TrackerDetailPage: React.FC = () => {
           </Link>
           <Typography color="text.primary">{tracker.name}</Typography>
         </Breadcrumbs>
+        */}
 
         {/* Header */}
         <Typography variant="h3" component="h1" sx={{ fontWeight: 'bold', mb: 1 }}>
