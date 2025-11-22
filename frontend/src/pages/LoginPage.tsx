@@ -32,7 +32,7 @@ const LoginPage: React.FC = () => {
     <Container maxWidth="sm" sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f5f5f7' }}>
       <Paper elevation={0} sx={{ p: 5, width: '100%', textAlign: 'center', borderRadius: 4, boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
         <Box sx={{ mb: 4, display: 'flex', justifyContent: 'center' }}>
-          <Logo height={80} width={86} />
+          <Logo height={80} width={125} />
         </Box>
         
         <Typography variant="h4" component="h1" gutterBottom fontWeight="700" sx={{ color: '#1D1D1F' }}>

@@ -21,7 +21,7 @@ const Navbar: React.FC = () => {
     <nav data-component="navbar" style={{ backgroundColor: 'white', borderBottom: '1px solid #eee', padding: '10px 20px' }}>
       <div data-section="navbar-container" style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div data-section="navbar-brand" style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }} onClick={() => navigate('/marketplace')}>
-          <Logo height={32} width={35} />
+          <Logo height={32} width={50} />
           <h1 style={{ margin: 0, fontSize: '20px', fontWeight: '700', color: '#1D1D1F' }}>Hedgie</h1>
         </div>
         
