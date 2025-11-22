@@ -27,7 +27,6 @@ const DashboardPage: React.FC = () => {
   useEffect(() => {
     const fetchPortfolio = async () => {
       if (!user) return;
-
       try {
         const data = await portfolioApi.getUserPortfolio(user.id);
         setPortfolio(data);
@@ -38,7 +37,6 @@ const DashboardPage: React.FC = () => {
         setLoading(false);
       }
     };
-
     fetchPortfolio();
   }, [user]);
 
@@ -50,268 +48,44 @@ const DashboardPage: React.FC = () => {
     }).format(amount);
   };
 
-  if (loading) {
-    return <div style={{ textAlign: 'center', marginTop: '50px' }}>Loading portfolio...</div>;
-  }
-
-  if (error || !portfolio) {
-    return <div style={{ textAlign: 'center', marginTop: '50px', color: 'red' }}>{error || 'Portfolio not found'}</div>;
-  }
+  if (loading) return <p>Loading...</p>;
+  if (error || !portfolio) return <p style={{ color: 'red' }}>{error || 'Portfolio not found'}</p>;
 
   return (
-    <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
-      {/* Header */}
-      {/* TODO: Replace with navigation component */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: '30px'
-      }}>
-        <div>
-          <h1>My Portfolio</h1>
-          <p style={{ color: '#666' }}>
-            Welcome back, <strong>{user?.name}</strong>
-          </p>
-        </div>
-        <div>
-          <button
-            onClick={() => navigate('/marketplace')}
-            style={{
-              padding: '10px 20px',
-              marginRight: '10px',
-              backgroundColor: '#007bff',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer'
-            }}
-          >
-            Browse Trackers
-          </button>
-          <button
-            onClick={logout}
-            style={{
-              padding: '10px 20px',
-              backgroundColor: '#dc3545',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer'
-            }}
-          >
-            Logout
-          </button>
-        </div>
-      </div>
+    <div style={{ padding: '20px' }}>
+      <h1>Portfolio - {user?.name}</h1>
+      <button onClick={() => navigate('/marketplace')}>Browse Trackers</button>
+      <button onClick={logout} style={{ marginLeft: '10px' }}>Logout</button>
 
-      {/* Summary Cards */}
-      {/* TODO: Replace with summary card components */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-        gap: '20px',
-        marginBottom: '30px'
-      }}>
-        <div style={{
-          padding: '20px',
-          border: '1px solid #ddd',
-          borderRadius: '8px',
-          backgroundColor: '#f8f9fa'
-        }}>
-          <div style={{ fontSize: '14px', color: '#666', marginBottom: '5px' }}>
-            Available Balance
-          </div>
-          <div style={{ fontSize: '28px', fontWeight: 'bold' }}>
-            {formatCurrency(portfolio.available_balance_clp)}
-          </div>
-        </div>
+      <h2>Summary</h2>
+      <p>Available: {formatCurrency(portfolio.available_balance_clp)}</p>
+      <p>Invested: {formatCurrency(portfolio.total_invested_clp)}</p>
+      <p>Current Value: {formatCurrency(portfolio.total_current_value_clp)}</p>
+      <p style={{ color: portfolio.total_profit_loss_clp >= 0 ? 'green' : 'red' }}>
+        P&L: {portfolio.total_profit_loss_clp >= 0 ? '+' : ''}
+        {formatCurrency(portfolio.total_profit_loss_clp)} ({portfolio.total_profit_loss_percent.toFixed(2)}%)
+      </p>
 
-        <div style={{
-          padding: '20px',
-          border: '1px solid #ddd',
-          borderRadius: '8px',
-          backgroundColor: '#f8f9fa'
-        }}>
-          <div style={{ fontSize: '14px', color: '#666', marginBottom: '5px' }}>
-            Total Invested
-          </div>
-          <div style={{ fontSize: '28px', fontWeight: 'bold' }}>
-            {formatCurrency(portfolio.total_invested_clp)}
-          </div>
-        </div>
-
-        <div style={{
-          padding: '20px',
-          border: '1px solid #ddd',
-          borderRadius: '8px',
-          backgroundColor: '#f8f9fa'
-        }}>
-          <div style={{ fontSize: '14px', color: '#666', marginBottom: '5px' }}>
-            Current Value
-          </div>
-          <div style={{ fontSize: '28px', fontWeight: 'bold' }}>
-            {formatCurrency(portfolio.total_current_value_clp)}
-          </div>
-        </div>
-
-        <div style={{
-          padding: '20px',
-          border: '1px solid #ddd',
-          borderRadius: '8px',
-          backgroundColor: portfolio.total_profit_loss_clp >= 0 ? '#d4edda' : '#f8d7da'
-        }}>
-          <div style={{ fontSize: '14px', color: '#666', marginBottom: '5px' }}>
-            Total P&L
-          </div>
-          <div style={{
-            fontSize: '28px',
-            fontWeight: 'bold',
-            color: portfolio.total_profit_loss_clp >= 0 ? '#155724' : '#721c24'
-          }}>
-            {portfolio.total_profit_loss_clp >= 0 ? '+' : ''}
-            {formatCurrency(portfolio.total_profit_loss_clp)}
-          </div>
-          <div style={{
-            fontSize: '14px',
-            color: portfolio.total_profit_loss_clp >= 0 ? '#155724' : '#721c24'
-          }}>
-            ({portfolio.total_profit_loss_percent >= 0 ? '+' : ''}
-            {portfolio.total_profit_loss_percent.toFixed(2)}%)
-          </div>
-        </div>
-      </div>
-
-      {/* Active Investments */}
-      <div>
-        <h2 style={{ marginBottom: '20px' }}>Active Tracker Investments</h2>
-
-        {portfolio.active_trackers.length > 0 ? (
-          // TODO: Replace with investment cards component
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
-            gap: '20px'
-          }}>
-            {portfolio.active_trackers.map((tracker) => (
-              <div
-                key={tracker.tracker_id}
-                style={{
-                  border: '1px solid #ddd',
-                  borderRadius: '8px',
-                  padding: '20px',
-                  cursor: 'pointer',
-                  transition: 'box-shadow 0.3s'
-                }}
-                onClick={() => navigate(`/tracker/${tracker.tracker_id}`)}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = 'none';
-                }}
-              >
-                <h3 style={{ marginBottom: '15px' }}>{tracker.tracker_name}</h3>
-
-                <div style={{ marginBottom: '10px' }}>
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    marginBottom: '8px'
-                  }}>
-                    <span style={{ fontSize: '14px', color: '#666' }}>Invested:</span>
-                    <span style={{ fontWeight: 'bold' }}>
-                      {formatCurrency(tracker.invested_amount_clp)}
-                    </span>
-                  </div>
-
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    marginBottom: '8px'
-                  }}>
-                    <span style={{ fontSize: '14px', color: '#666' }}>Current Value:</span>
-                    <span style={{ fontWeight: 'bold' }}>
-                      {formatCurrency(tracker.current_value_clp)}
-                    </span>
-                  </div>
-
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    paddingTop: '10px',
-                    borderTop: '1px solid #eee'
-                  }}>
-                    <span style={{ fontSize: '14px', fontWeight: 'bold' }}>Profit/Loss:</span>
-                    <span style={{
-                      fontWeight: 'bold',
-                      color: tracker.profit_loss_clp >= 0 ? '#28a745' : '#dc3545'
-                    }}>
-                      {tracker.profit_loss_clp >= 0 ? '+' : ''}
-                      {formatCurrency(tracker.profit_loss_clp)}
-                      ({tracker.profit_loss_percent >= 0 ? '+' : ''}
-                      {tracker.profit_loss_percent.toFixed(2)}%)
-                    </span>
-                  </div>
-                </div>
-
-                {/* TODO: Add action buttons (View Details, Sell, etc.) */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate(`/tracker/${tracker.tracker_id}`);
-                  }}
-                  style={{
-                    width: '100%',
-                    padding: '10px',
-                    marginTop: '10px',
-                    backgroundColor: '#007bff',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                  }}
-                >
-                  View Details
-                </button>
-              </div>
-            ))}
-          </div>
-        ) : (
-          // TODO: Replace with empty state component
-          <div style={{
-            padding: '50px',
-            textAlign: 'center',
-            border: '2px dashed #ddd',
-            borderRadius: '8px',
-            color: '#6c757d'
-          }}>
-            <p style={{ fontSize: '18px', marginBottom: '10px' }}>
-              You haven't invested in any trackers yet
+      <h2>Active Investments</h2>
+      {portfolio.active_trackers.length > 0 ? (
+        portfolio.active_trackers.map((tracker) => (
+          <div key={tracker.tracker_id} style={{ border: '1px solid #ccc', padding: '10px', margin: '10px 0' }}>
+            <h3>{tracker.tracker_name}</h3>
+            <p>Invested: {formatCurrency(tracker.invested_amount_clp)}</p>
+            <p>Current: {formatCurrency(tracker.current_value_clp)}</p>
+            <p style={{ color: tracker.profit_loss_clp >= 0 ? 'green' : 'red' }}>
+              P&L: {tracker.profit_loss_clp >= 0 ? '+' : ''}
+              {formatCurrency(tracker.profit_loss_clp)} ({tracker.profit_loss_percent.toFixed(2)}%)
             </p>
-            <p style={{ fontSize: '14px', marginBottom: '20px' }}>
-              Start by browsing available trackers in the marketplace
-            </p>
-            <button
-              onClick={() => navigate('/marketplace')}
-              style={{
-                padding: '12px 24px',
-                backgroundColor: '#007bff',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                fontSize: '16px'
-              }}
-            >
-              Browse Marketplace
-            </button>
+            <button onClick={() => navigate(`/tracker/${tracker.tracker_id}`)}>View Details</button>
           </div>
-        )}
-      </div>
-
-      {/* TODO: Add portfolio performance chart */}
-      {/* TODO: Add transaction history section */}
+        ))
+      ) : (
+        <div>
+          <p>No investments yet</p>
+          <button onClick={() => navigate('/marketplace')}>Browse Marketplace</button>
+        </div>
+      )}
     </div>
   );
 };

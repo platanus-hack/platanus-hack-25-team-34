@@ -1,5 +1,6 @@
 # Python
 __pycache__/
+*.pyc
 *.py[cod]
 *$py.class
 *.so
@@ -103,3 +104,4 @@ coverage/
 .next/
 .nuxt/
 .vercel
+*.pyc

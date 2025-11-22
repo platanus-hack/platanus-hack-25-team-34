@@ -5,8 +5,6 @@ import type { Tracker, TrackerHolding } from '../types';
 import { useAuth } from '../context/AuthContext';
 import ChartFromAPI from '../components/Chart.jsx';
 
-import {Button, Card, CardContent, CardMedia, Typography} from '@mui/material';
-
 const TrackerDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -121,185 +119,66 @@ const TrackerDetailPage: React.FC = () => {
   }
 
   return (
-    <div>
-      <Button
-        onClick={() => navigate('/marketplace')}
-      >
-        ← Back to Marketplace
-      </Button>
+    <div style={{ padding: '20px' }}>
+      <button onClick={() => navigate('/marketplace')}>← Back to Marketplace</button>
 
-      <div>
-        <div>
-          <img 
-            src={tracker.avatar_url} 
-            alt={tracker.name}
-            style={{ width: '200px', height: '200px', borderRadius: '50%', objectFit: 'cover' }}
-          />
-        </div>
-        <div>
-          <h1>{tracker.name}</h1>
-          <p>{tracker.type}</p>
-          <p>{tracker.description}</p>
-        </div>
-      </div>
+      <img 
+        src={tracker.avatar_url} 
+        alt={tracker.name}
+        style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover' }}
+      />
+      <h1>{tracker.name}</h1>
+      <p>{tracker.type} | {tracker.description}</p>
 
-      <div>
-        <div>
-          <div>YTD Return</div>
-          <div>{tracker.ytd_return >= 0 ? '+' : ''}{tracker.ytd_return}%</div>
-        </div>
-        <div>
-          <div>Risk Level</div>
-          <div>{tracker.risk_level}</div>
-        </div>
-        <div>
-          <div>Avg Delay</div>
-          <div>{tracker.average_delay} days</div>
-        </div>
-        <div>
-          <div>Followers</div>
-          <div>{tracker.followers_count.toLocaleString()}</div>
-        </div>
-      </div>
+      <p>YTD Return: {tracker.ytd_return >= 0 ? '+' : ''}{tracker.ytd_return}%</p>
+      <p>Risk: {tracker.risk_level} | Delay: {tracker.average_delay} days | Followers: {tracker.followers_count.toLocaleString()}</p>
 
-      <div>
-        <h3>Performance Chart</h3>
-        <p>TODO: Add Recharts line chart showing historical performance</p>
-        <div>
-          [Chart Placeholder - Will show YTD performance trend]
-        </div>
-      </div>
+      <ChartFromAPI />
 
-      <div>
-        <ChartFromAPI></ChartFromAPI>
-      </div>
-
-      <div style={{ marginBottom: '30px' }}>
-        <h2 style={{ marginBottom: '15px' }}>Portfolio Holdings</h2>
-        {holdings.length > 0 ? (
-          <table style={{
-            width: '100%',
-            borderCollapse: 'collapse',
-            border: '1px solid #ddd'
-          }}>
-            <thead style={{ backgroundColor: '#f8f9fa' }}>
-              <tr>
-                <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>Ticker</th>
-                <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>Company</th>
-                <th style={{ padding: '12px', textAlign: 'right', borderBottom: '1px solid #ddd' }}>Allocation</th>
+      <h2>Holdings</h2>
+      {holdings.length > 0 ? (
+        <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #ddd' }}>
+          <thead>
+            <tr>
+              <th style={{ padding: '10px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>Ticker</th>
+              <th style={{ padding: '10px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>Company</th>
+              <th style={{ padding: '10px', textAlign: 'right', borderBottom: '1px solid #ddd' }}>Allocation</th>
+            </tr>
+          </thead>
+          <tbody>
+            {holdings.map((holding) => (
+              <tr key={holding.id}>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>{holding.ticker}</td>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>{holding.company_name}</td>
+                <td style={{ padding: '10px', borderBottom: '1px solid #eee', textAlign: 'right' }}>{holding.allocation_percent}%</td>
               </tr>
-            </thead>
-            <tbody>
-              {holdings.map((holding) => (
-                <tr key={holding.id}>
-                  <td style={{ padding: '12px', borderBottom: '1px solid #eee', fontWeight: 'bold' }}>
-                    {holding.ticker}
-                  </td>
-                  <td style={{ padding: '12px', borderBottom: '1px solid #eee' }}>
-                    {holding.company_name}
-                  </td>
-                  <td style={{ padding: '12px', borderBottom: '1px solid #eee', textAlign: 'right' }}>
-                    {holding.allocation_percent}%
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <p style={{ color: '#6c757d', fontStyle: 'italic' }}>
-            No holdings information available
-          </p>
-        )}
-      </div>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>No holdings available</p>
+      )}
 
-      <div style={{
-        padding: '20px',
-        border: '2px solid #007bff',
-        borderRadius: '8px',
-        backgroundColor: '#f0f8ff'
-      }}>
+      <div style={{ marginTop: '20px', padding: '20px', border: '2px solid #007bff', borderRadius: '8px' }}>
         <h2>Invest in {tracker.name}</h2>
-        <p>
-          Your available balance: <strong>{formatCurrency(user?.balance_clp || 0)}</strong>
-        </p>
+        <p>Available: <strong>{formatCurrency(user?.balance_clp || 0)}</strong></p>
 
         {investmentSuccess ? (
-          <div style={{
-            padding: '15px',
-            backgroundColor: '#d4edda',
-            border: '1px solid #c3e6cb',
-            borderRadius: '4px',
-            color: '#155724',
-            textAlign: 'center',
-            fontWeight: 'bold'
-          }}>
-            ✓ Investment successful! Redirecting to dashboard...
-          </div>
+          <p style={{ color: 'green' }}>✓ Investment successful! Redirecting...</p>
         ) : (
           <form onSubmit={handleInvest}>
-            <div style={{ marginBottom: '15px' }}>
-              <label htmlFor="amount" style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold' }}>
-                Amount (CLP):
-              </label>
-              <input
-                id="amount"
-                type="number"
-                value={investmentAmount}
-                onChange={(e) => setInvestmentAmount(e.target.value)}
-                placeholder="Enter amount in CLP"
-                min="1"
-                step="1"
-                disabled={investing}
-                style={{
-                  width: '100%',
-                  padding: '10px',
-                  fontSize: '16px',
-                  border: '1px solid #ccc',
-                  borderRadius: '4px',
-                  boxSizing: 'border-box'
-                }}
-              />
-            </div>
-
-            {investmentError && (
-              <div style={{
-                marginTop: '10px',
-                padding: '10px',
-                backgroundColor: '#fee',
-                border: '1px solid #fcc',
-                borderRadius: '4px',
-                color: '#c00'
-              }}>
-                {String(investmentError)}
-              </div>
-            )}
-
-            <button
-              type="submit"
+            <label>Amount (CLP):</label>
+            <input
+              type="number"
+              value={investmentAmount}
+              onChange={(e) => setInvestmentAmount(e.target.value)}
+              placeholder="Enter amount"
+              min="1"
               disabled={investing}
-              style={{
-                width: '100%',
-                padding: '12px',
-                fontSize: '16px',
-                fontWeight: 'bold',
-                color: 'white',
-                backgroundColor: investing ? '#6c757d' : '#007bff',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: investing ? 'not-allowed' : 'pointer',
-                transition: 'background-color 0.2s'
-              }}
-              onMouseEnter={(e) => {
-                if (!investing) {
-                  e.currentTarget.style.backgroundColor = '#0056b3';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!investing) {
-                  e.currentTarget.style.backgroundColor = '#007bff';
-                }
-              }}
-            >
+              style={{ width: '100%', padding: '10px', marginBottom: '10px' }}
+            />
+            {investmentError && <p style={{ color: 'red' }}>{String(investmentError)}</p>}
+            <button type="submit" disabled={investing} style={{ width: '100%', padding: '12px' }}>
               {investing ? 'Processing...' : 'Invest Now'}
             </button>
           </form>
