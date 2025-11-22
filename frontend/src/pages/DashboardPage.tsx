@@ -68,7 +68,7 @@ const DashboardPage: React.FC = () => {
       <Navbar />
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <h1 style={{ color: '#333' }}>Portafolio - {user?.name}</h1>
+          <h1 style={{ color: '#333' }}>Portafolio</h1>
           <div>
             <Button onClick={() => navigate('/marketplace')} sx={{ mr: 2 }}>Explorar Portafolios</Button>
             <Button onClick={logout}>Cerrar Sesión</Button>

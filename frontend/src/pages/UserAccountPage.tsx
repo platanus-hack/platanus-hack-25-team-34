@@ -1,16 +1,12 @@
-/**
- * User Account Page
- * 
- * Displays user balance in CLP and USD
- * Allows deposit and withdrawal of funds (mock operations)
- */
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { userApi } from '../services/api';
 import { formatCLP, formatUSD, convertClpToUsd, CLP_TO_USD_RATE } from '../config/constants';
-import { Button } from '@mui/material';
+import { Box, Container, Typography, Alert } from '@mui/material';
 import type { BalanceResponse } from '../types';
 import Navbar from '../components/Navbar';
+import BalanceCard from '../components/BalanceCard';
+import TransactionCard from '../components/TransactionCard';
 
 const UserAccountPage: React.FC = () => {
   const { user, updateUser } = useAuth();
@@ -118,102 +114,56 @@ const UserAccountPage: React.FC = () => {
 
   if (fetchingBalance) {
     return (
-      <div data-page="user-account">
+      <Box sx={{ backgroundColor: '#f5f5f5', minHeight: '100vh' }}>
         <Navbar />
-        <div data-section="content">
-          <p>Cargando balance...</p>
-        </div>
-      </div>
+        <Container maxWidth="lg" sx={{ mt: 4 }}>
+          <Typography>Cargando balance...</Typography>
+        </Container>
+      </Box>
     );
   }
 
   return (
-    <div data-page="user-account">
+    <Box sx={{ backgroundColor: '#f5f5f5', minHeight: '100vh', pb: 8 }}>
       <Navbar />
       
-      <div data-section="content">
-        <h1>Mi Cuenta</h1>
-        
-        <div data-section="balance-summary">
-          <h2>Saldo Disponible</h2>
-          <div data-section="balance-amounts">
-            <p data-currency="clp">
-              <strong>CLP:</strong> {formatCLP(balance)}
-            </p>
-            <p data-currency="usd">
-              <strong>USD:</strong> {formatUSD(balanceUsd)}
-            </p>
-            <p data-info="exchange-rate">
-              (Tasa de cambio: 1 USD = {CLP_TO_USD_RATE} CLP)
-            </p>
-          </div>
-        </div>
+      <Container maxWidth="lg" sx={{ mt: 4 }}>
+        <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
+          Mi Cuenta
+        </Typography>
 
-        {message && (
-          <div data-state="success">
-            {message}
-          </div>
-        )}
+        <BalanceCard 
+          balanceClp={formatCLP(balance)}
+          balanceUsd={formatUSD(balanceUsd)}
+          exchangeRate={CLP_TO_USD_RATE}
+        />
 
-        {error && (
-          <div data-state="error">
-            {error}
-          </div>
-        )}
+        {message && <Alert severity="success" sx={{ mb: 2 }}>{message}</Alert>}
+        {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
-        <div data-section="actions">
-          <div data-section="deposit-form">
-            <h2>Depositar Fondos</h2>
-            <form onSubmit={handleDeposit}>
-              <div>
-                <label htmlFor="deposit-amount">Monto en CLP</label>
-                <input
-                  id="deposit-amount"
-                  type="number"
-                  value={depositAmount}
-                  onChange={(e) => setDepositAmount(e.target.value)}
-                  placeholder="Ej: 100000"
-                  disabled={loading}
-                />
-              </div>
-              {depositAmount && parseFloat(depositAmount) > 0 && (
-                <p data-info="conversion">
-                  Equivalente: {formatUSD(convertClpToUsd(parseFloat(depositAmount)))}
-                </p>
-              )}
-              <Button type="submit" disabled={loading}>
-                {loading ? 'Procesando...' : 'Depositar'}
-              </Button>
-            </form>
-          </div>
-
-          <div data-section="withdraw-form">
-            <h2>Retirar Fondos</h2>
-            <form onSubmit={handleWithdraw}>
-              <div>
-                <label htmlFor="withdraw-amount">Monto en CLP</label>
-                <input
-                  id="withdraw-amount"
-                  type="number"
-                  value={withdrawAmount}
-                  onChange={(e) => setWithdrawAmount(e.target.value)}
-                  placeholder="Ej: 50000"
-                  disabled={loading}
-                />
-              </div>
-              {withdrawAmount && parseFloat(withdrawAmount) > 0 && (
-                <p data-info="conversion">
-                  Equivalente: {formatUSD(convertClpToUsd(parseFloat(withdrawAmount)))}
-                </p>
-              )}
-              <Button type="submit" disabled={loading}>
-                {loading ? 'Procesando...' : 'Retirar'}
-              </Button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+        <Box sx={{ 
+          display: 'flex', 
+          flexDirection: { xs: 'column', md: 'row' }, 
+          gap: 3 
+        }}>
+          <TransactionCard
+            type="deposit"
+            amount={depositAmount}
+            onAmountChange={setDepositAmount}
+            onSubmit={handleDeposit}
+            loading={loading}
+          />
+          
+          <TransactionCard
+            type="withdraw"
+            amount={withdrawAmount}
+            onAmountChange={setWithdrawAmount}
+            onSubmit={handleWithdraw}
+            loading={loading}
+          />
+        </Box>
+      </Container>
+    </Box>
   );
 };
 

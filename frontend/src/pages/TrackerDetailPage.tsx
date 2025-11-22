@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import ChartFromAPI from '../components/Chart';
 import Navbar from '../components/Navbar';
 import HoldingsList from '../components/HoldingsList';
+import InvestmentInput from '../components/InvestmentInput';
 import { Button } from '@mui/material';
 
 const TrackerDetailPage: React.FC = () => {
@@ -18,6 +19,7 @@ const TrackerDetailPage: React.FC = () => {
   const [error, setError] = useState<string>('');
   
   const [investmentAmount, setInvestmentAmount] = useState<string>('');
+  const [currency, setCurrency] = useState<'CLP' | 'USD'>('CLP');
   const [investing, setInvesting] = useState(false);
   const [investmentError, setInvestmentError] = useState<string>('');
   const [investmentSuccess, setInvestmentSuccess] = useState(false);
@@ -200,18 +202,15 @@ const TrackerDetailPage: React.FC = () => {
           <p style={{ color: 'green' }}>✓ ¡Inversión exitosa! Redirigiendo...</p>
         ) : (
           <form onSubmit={handleInvest}>
-            <label>Monto (CLP):</label>
-            <input
-              type="number"
+            <InvestmentInput
               value={investmentAmount}
-              onChange={(e) => setInvestmentAmount(e.target.value)}
-              placeholder="Ingresar monto"
-              min="1"
+              onChange={setInvestmentAmount}
+              currency={currency}
+              onCurrencyChange={setCurrency}
               disabled={investing}
-              style={{ width: '100%', padding: '10px', marginBottom: '10px' }}
             />
-            {investmentError && <p style={{ color: 'red' }}>{String(investmentError)}</p>}
-            <Button type="submit" disabled={investing} fullWidth size="large">
+            {investmentError && <p style={{ color: 'red', textAlign: 'center' }}>{String(investmentError)}</p>}
+            <Button type="submit" disabled={investing} fullWidth size="large" sx={{ mt: 2 }}>
               {investing ? 'Procesando...' : 'Invertir Ahora'}
             </Button>
           </form>
