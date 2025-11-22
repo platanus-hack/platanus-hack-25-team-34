@@ -2,18 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { trackerApi } from '../services/api';
 import type { Tracker } from '../types';
-import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import TrackerCard from '../components/TrackerCard';
 
-import {Button, Typography, Box, Container} from '@mui/material';
+import {Typography, Box, Container} from '@mui/material';
 
 const MarketplacePage: React.FC = () => {
   const [trackers, setTrackers] = useState<Tracker[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>('');
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
 
   useEffect(() => {
     const fetchTrackers = async () => {
@@ -45,61 +43,6 @@ const MarketplacePage: React.FC = () => {
       <Navbar />
 
       <Container maxWidth="lg">
-
-        <Box sx={{ 
-          backgroundColor: 'white', 
-          borderRadius: '12px',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-          px: { xs: 2, sm: 4 }, // Reduce padding on mobile
-          py: 2, 
-          mb: 4,
-          display: 'flex', 
-          flexDirection: { xs: 'column', sm: 'row' }, // Stack vertically on mobile
-          justifyContent: { xs: 'flex-start', sm: 'space-between' }, 
-          alignItems: { xs: 'stretch', sm: 'center' },
-          gap: 2 // Consistent gap between sections
-        }}>
-          <Typography variant="body1" sx={{ color: '#333', fontWeight: 'bold' }}>
-            Bienvenido, {user?.name}
-          </Typography>
-
-          <Box sx={{ 
-            display: 'flex', 
-            flexDirection: { xs: 'column', sm: 'row' }, // Stack balance and buttons on mobile
-            alignItems: { xs: 'flex-start', sm: 'center' },
-            gap: { xs: 2, sm: 3 }, // Responsive gap
-            flexWrap: 'wrap' // Allow wrapping if needed
-          }}>
-            <Box sx={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: 1,
-              flexShrink: 0 // Prevent balance from shrinking
-            }}>
-              <Typography variant="body1" sx={{ color: '#666' }}>
-                Saldo:
-              </Typography>
-              <Typography variant="h6" sx={{ color: '#00C853', fontWeight: 'bold' }}>
-                {user?.balance_clp}
-              </Typography>
-            </Box>
-
-            <Box sx={{ 
-              display: 'flex', 
-              gap: 1,
-              flexWrap: 'wrap' // Allow buttons to wrap on very small screens
-            }}>
-              <Button
-                size="small"
-                onClick={logout}
-              >
-                Cerrar Sesión
-              </Button>
-            </Box>
-          </Box>
-        </Box>
-        
-        
         <Typography
           variant="h4"
           component="h1"
