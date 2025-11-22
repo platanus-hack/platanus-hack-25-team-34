@@ -5,6 +5,7 @@ import type { Tracker, TrackerHolding } from '../types';
 import { useAuth } from '../context/AuthContext';
 import ChartFromAPI from '../components/Chart';
 import Navbar from '../components/Navbar';
+import HoldingsList from '../components/HoldingsList';
 import { Button } from '@mui/material';
 
 const TrackerDetailPage: React.FC = () => {
@@ -139,29 +140,7 @@ const TrackerDetailPage: React.FC = () => {
 
       <ChartFromAPI />
 
-      <h2>Tenencias</h2>
-      {holdings.length > 0 ? (
-        <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid #ddd' }}>
-          <thead>
-            <tr>
-              <th style={{ padding: '10px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>Ticker</th>
-              <th style={{ padding: '10px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>Compañía</th>
-              <th style={{ padding: '10px', textAlign: 'right', borderBottom: '1px solid #ddd' }}>Asignación</th>
-            </tr>
-          </thead>
-          <tbody>
-            {holdings.map((holding) => (
-              <tr key={holding.id}>
-                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>{holding.ticker}</td>
-                <td style={{ padding: '10px', borderBottom: '1px solid #eee' }}>{holding.company_name}</td>
-                <td style={{ padding: '10px', borderBottom: '1px solid #eee', textAlign: 'right' }}>{holding.allocation_percent}%</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p>No hay tenencias disponibles</p>
-      )}
+      <HoldingsList holdings={holdings} />
 
       <div data-section="disclaimer">
         <Button onClick={() => setShowDisclaimer(true)}>
