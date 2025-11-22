@@ -4,7 +4,28 @@ import { trackerApi } from '../services/api';
 import type { Tracker } from '../types';
 import { useAuth } from '../context/AuthContext';
 
-import {Button, Card, CardContent, CardMedia, Typography} from '@mui/material';
+import {Button, Card, CardContent, CardMedia, Typography, Box, Container} from '@mui/material';
+
+const politicians = [
+  {
+    name: 'Nancy Pelusa',
+    returnRate: '14.56%',
+    period: 'rentabilidad al año',
+    image: 'https://via.placeholder.com/300x200/333/fff?text=Nancy+Pelosi',
+  },
+  {
+    name: 'Dolan bets',
+    returnRate: '3.23%',
+    period: 'rentabilidad al trimestre',
+    image: 'https://via.placeholder.com/300x200/333/fff?text=Donald+Trump',
+  },
+  {
+    name: 'Xi xeñol',
+    returnRate: '1.26%',
+    period: 'rentabilidad al semestre',
+    image: 'https://via.placeholder.com/300x200/333/fff?text=Xi+Jinping',
+  },
+];
 
 const MarketplacePage: React.FC = () => {
   const [trackers, setTrackers] = useState<Tracker[]>([]);
@@ -37,14 +58,6 @@ const MarketplacePage: React.FC = () => {
     }).format(amount);
   };
 
-  const getRiskColor = (risk: string) => {
-    switch (risk.toLowerCase()) {
-      case 'low': return '#28a745';
-      case 'medium': return '#ffc107';
-      case 'high': return '#dc3545';
-      default: return '#6c757d';
-    }
-  };
 
   if (loading) {
     return <div style={{ textAlign: 'center', marginTop: '50px' }}>Loading trackers...</div>;
@@ -55,74 +68,154 @@ const MarketplacePage: React.FC = () => {
   }
 
   return (
-    <div>
-      <div>
-        <div>
-          <h1>Marketplace - Copy-Trade Whales</h1>
-          <p style={{ color: '#666' }}>
-            Logged in as: <strong>{user?.name}</strong> | 
-            Balance: <strong>{formatCurrency(user?.balance_clp || 0)}</strong>
-          </p>
-        </div>
-        <div>
-          <Button onClick={() => navigate('/dashboard')}>
-            My Portfolio
-          </Button>
-          <Button onClick={logout}>
-            Logout
-          </Button>
-        </div>
-      </div>
+      
+    <Box sx={{ backgroundColor: 'var(--bg-primary)', minHeight: '100vh', py: 4 }}>
 
-      <div style={{display:'flex'}}>
-        {trackers.map((tracker) => (
-          <Card
-            key={tracker.id}
-            onClick={() => navigate(`/tracker/${tracker.id}`)}
-            sx={{ maxWidth: 345 }}
-          >
-            <CardMedia
-              component="img"
-              height="194"
-              image={tracker.avatar_url}
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {tracker.name}
+      <Container maxWidth="lg">
+
+        <Box sx={{ 
+          backgroundColor: 'var(--card-bg)', 
+          px: { xs: 2, sm: 4 }, // Reduce padding on mobile
+          py: 2, 
+          display: 'flex', 
+          flexDirection: { xs: 'column', sm: 'row' }, // Stack vertically on mobile
+          justifyContent: { xs: 'flex-start', sm: 'space-between' }, 
+          alignItems: { xs: 'stretch', sm: 'center' },
+          gap: 2 // Consistent gap between sections
+        }}>
+          <Typography variant="body1" sx={{ color: 'var(--text-primary)' }}>
+            {user.name}
+          </Typography>
+
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: { xs: 'column', sm: 'row' }, // Stack balance and buttons on mobile
+            alignItems: { xs: 'flex-start', sm: 'center' },
+            gap: { xs: 2, sm: 3 }, // Responsive gap
+            flexWrap: 'wrap' // Allow wrapping if needed
+          }}>
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 1,
+              flexShrink: 0 // Prevent balance from shrinking
+            }}>
+              <Typography variant="body1" sx={{ color: 'var(--text-secondary)' }}>
+                Balance:
               </Typography>
-              <div>
-                <div>
-                  <span>YTD Return:</span>
-                  <span>
-                    {tracker.ytd_return >= 0 ? '+' : ''}{tracker.ytd_return}%
-                  </span>
-                </div>
-                <div>
-                  <span>Risk Level:</span>
-                  <span>
-                    {tracker.risk_level}
-                  </span>
-                </div>
-                <div>
-                  <span>Avg Delay:</span>
-                  <span>{tracker.average_delay} days</span>
-                </div>
-                <div>
-                  <span>Followers:</span>
-                  <span>{tracker.followers_count.toLocaleString()}</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+              <Typography variant="h6" sx={{ color: 'var(--accent-positive)' }}>
+                {user?.balance_clp}
+              </Typography>
+            </Box>
 
-      {trackers.length === 0 && (
-        <div>
-          No trackers available at the moment.
-        </div>
-      )}
-    </div>
+            <Box sx={{ 
+              display: 'flex', 
+              gap: 1,
+              flexWrap: 'wrap' // Allow buttons to wrap on very small screens
+            }}>
+              <Button
+                variant="outlined"
+                size="small"
+                sx={{
+                  color: 'var(--accent-info)',
+                  borderColor: 'var(--accent-info)',
+                  '&:hover': { borderColor: 'var(--accent-info)', backgroundColor: 'var(--accent-info-light)' }
+                }}
+                onClick={() => navigate('/dashboard')}
+              >
+                Dashboard
+              </Button>
+
+              <Button
+                variant="outlined"
+                size="small"
+                sx={{
+                  color: 'var(--text-secondary)',
+                  borderColor: 'var(--text-secondary)',
+                  '&:hover': { borderColor: 'var(--text-secondary)', backgroundColor: 'var(--text-secondary-light)' }
+                }}
+                onClick={logout}
+              >
+                Logout
+              </Button>
+            </Box>
+          </Box>
+        </Box>
+        
+        
+        <Typography
+          variant="h5"
+          component="h1"
+          sx={{ color: 'var(--text-primary)', mb: 4, fontWeight: 'bold' }}
+        >
+          Portafolios destacados: Politicians & Return Rates
+        </Typography>
+
+        <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap' }}>
+          {trackers.map((tracker) => (
+            <Card
+              key={tracker.id}
+              onClick={() => navigate(`/tracker/${tracker.id}`)}
+              sx={{
+                backgroundColor: 'var(--card-bg)',
+                color: 'var(--text-primary)',
+                flex: '1 1 300px',
+                maxWidth: 350,
+              }}
+            >
+              <CardMedia
+                component="img"
+                height="200"
+                image={tracker.avatar_url}
+                alt={tracker.name}
+              />
+              <CardContent>
+                <Typography variant="h6" sx={{ color: 'var(--text-primary)', mb: 1 }}>
+                  {tracker.name}
+                </Typography>
+
+                <Typography
+                  variant="h5"
+                  sx={{ color: 'var(--accent-positive)', fontWeight: 'bold', mb: 0.5 }}
+                >
+                  {tracker.ytd_return}
+                </Typography>
+
+                <Typography variant="body2" sx={{ color: 'var(--text-secondary)', mb: 2 }}>
+                  {tracker.risk_level}
+                </Typography>
+
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: 'var(--accent-info)',
+                    backgroundColor: 'var(--accent-info-light)',
+                    padding: '4px 8px',
+                    borderRadius: '4px',
+                    display: 'inline-block',
+                  }}
+                >
+                  Hedge cherry picking
+                </Typography>
+              </CardContent>
+            </Card>
+          ))}
+        </Box>
+
+        <Box sx={{ mt: 4, textAlign: 'center' }}>
+          <Typography
+            variant="body1"
+            sx={{
+              color: 'var(--accent-info)',
+              cursor: 'pointer',
+              '&:hover': { textDecoration: 'underline' },
+            }}
+          >
+            Ver nuestra más fina selección →
+          </Typography>
+        </Box>
+      </Container>
+    </Box>
   );
 };
 
