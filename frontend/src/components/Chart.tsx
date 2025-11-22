@@ -1,14 +1,15 @@
-import React, { useState, useCallback } from "react";
+import { useState, useCallback } from "react";
+// @ts-ignore - react-vega doesn't have TypeScript definitions
 import { VegaEmbed } from "react-vega";
 import { chartApi } from "../services/api";
 
 function AdvancedChartGenerator() {
-  const [chartSpec, setChartSpec] = useState(null);
+  const [chartSpec, setChartSpec] = useState<any>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [selectedData, setSelectedData] = useState(null);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedData, setSelectedData] = useState<any>(null);
 
-  const handleChartClick = useCallback((view, item) => {
+  const handleChartClick = useCallback((_view: any, item: any) => {
     if (item && item.datum) {
       setSelectedData(item.datum);
     }
@@ -19,10 +20,6 @@ function AdvancedChartGenerator() {
     setError(null);
 
     try {
-      const requestData = {
-        val: 1,
-      };
-
       const response = await chartApi.getChart();
 
       if (!response) {
@@ -31,7 +28,7 @@ function AdvancedChartGenerator() {
 
       setChartSpec(response.spec);
     } catch (err) {
-      setError(err.message);
+      setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setLoading(false);
     }
@@ -71,7 +68,7 @@ function AdvancedChartGenerator() {
           <VegaEmbed
             spec={chartSpec}
             options={vegaOptions}
-            onNewView={(view) => {
+            onNewView={(view: any) => {
               view.addEventListener("click", handleChartClick);
             }}
           />

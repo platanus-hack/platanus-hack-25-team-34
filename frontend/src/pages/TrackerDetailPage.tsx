@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { trackerApi, investmentApi } from '../services/api';
 import type { Tracker, TrackerHolding } from '../types';
 import { useAuth } from '../context/AuthContext';
-import ChartFromAPI from '../components/Chart.jsx';
+import ChartFromAPI from '../components/Chart';
 import Navbar from '../components/Navbar';
 
 const TrackerDetailPage: React.FC = () => {
