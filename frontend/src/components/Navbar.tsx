@@ -30,6 +30,9 @@ const Navbar: React.FC = () => {
           <button onClick={() => navigate('/marketplace')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', fontWeight: '500', color: '#333' }}>
             Portafolios
           </button>
+          <button onClick={() => navigate('/insights')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', fontWeight: '500', color: '#333' }}>
+            Insights
+          </button>
           <button onClick={() => navigate('/dashboard')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', fontWeight: '500', color: '#333' }}>
             Mis Inversiones
           </button>
