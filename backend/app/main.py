@@ -2,7 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 import app.seed
-from app.api import trackers, invest, portfolio, auth, chart
+from app.api import trackers, invest, portfolio, auth
+from app.api import chart
 
 app.seed.main()
 

@@ -3,6 +3,9 @@
  * 
  * Sets up routing and authentication context.
  * 
+ * LOCAL_DEVELOPMENT mode: Set VITE_LOCAL_DEVELOPMENT=true in .env
+ * to bypass authentication and access all views directly.
+ * 
  * TODO: Add global layout component
  * TODO: Add loading states for route transitions
  * TODO: Add error boundary
@@ -19,7 +22,12 @@ import DashboardPage from './pages/DashboardPage';
 
 // Protected Route wrapper
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLocalDevelopment } = useAuth();
+  
+  // In local development mode, always allow access
+  if (isLocalDevelopment) {
+    return <>{children}</>;
+  }
   
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;

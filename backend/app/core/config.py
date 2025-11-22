@@ -1,7 +1,10 @@
 import os
-from pydantic_settings import BaseSettings
+from dotenv import load_dotenv
 
-class Settings(BaseSettings):
+# Load environment variables from .env file
+load_dotenv()
+
+class Settings:
     # Project Settings
     PROJECT_NAME: str = os.getenv("PROJECT_NAME", "Hedgie API")
     API_V1_STR: str = os.getenv("API_V1_STR", "/api/v1")
@@ -10,19 +13,12 @@ class Settings(BaseSettings):
     BROKER_MODE: str = os.getenv("BROKER_MODE", "mock")  # 'mock' or 'real'
     
     # Database Settings
-    DATABASE_URL: str = os.getenv(
-        "DATABASE_URL", 
-        "postgresql://hedgie:hedgie_password@127.0.0.1:5432/hedgie"
-    )
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "")
     
     # CORS Settings
     CORS_ORIGINS: str = os.getenv(
         "CORS_ORIGINS",
         "http://localhost:5173,http://localhost:3000"
     )
-    
-    class Config:
-        env_file = ".env"
-        case_sensitive = True
 
 settings = Settings()
