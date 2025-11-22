@@ -22,7 +22,7 @@ const DashboardPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>('');
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user, logout, updateUser } = useAuth();
 
   useEffect(() => {
     const fetchPortfolio = async () => {
@@ -30,6 +30,11 @@ const DashboardPage: React.FC = () => {
       try {
         const data = await portfolioApi.getUserPortfolio(user.id);
         setPortfolio(data);
+        
+        // Update user context with latest balance from portfolio
+        if (updateUser) {
+          updateUser({ ...user, balance_clp: data.available_balance_clp });
+        }
       } catch (err) {
         setError('Failed to load portfolio');
         console.error(err);
@@ -38,7 +43,7 @@ const DashboardPage: React.FC = () => {
       }
     };
     fetchPortfolio();
-  }, [user]);
+  }, [user?.id]);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('es-CL', {

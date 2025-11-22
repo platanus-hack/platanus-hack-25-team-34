@@ -13,18 +13,38 @@ import Navbar from '../components/Navbar';
 
 const UserAccountPage: React.FC = () => {
   const { user, updateUser } = useAuth();
-  const [balance, setBalance] = useState<number>(user?.balance_clp || 0);
+  const [balance, setBalance] = useState<number>(0);
   const [depositAmount, setDepositAmount] = useState<string>('');
   const [withdrawAmount, setWithdrawAmount] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const [fetchingBalance, setFetchingBalance] = useState(true);
 
   useEffect(() => {
-    if (user) {
-      setBalance(user.balance_clp);
-    }
-  }, [user]);
+    const fetchBalance = async () => {
+      if (!user) return;
+      
+      setFetchingBalance(true);
+      try {
+        const response: BalanceResponse = await userApi.getBalance(user.id);
+        setBalance(response.balance_clp);
+        
+        // Update user context with latest balance
+        if (updateUser) {
+          updateUser({ ...user, balance_clp: response.balance_clp });
+        }
+      } catch (err) {
+        console.error('Failed to fetch balance:', err);
+        // Fallback to user balance from context
+        setBalance(user.balance_clp);
+      } finally {
+        setFetchingBalance(false);
+      }
+    };
+    
+    fetchBalance();
+  }, [user?.id]);
 
   const handleDeposit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -94,6 +114,17 @@ const UserAccountPage: React.FC = () => {
   };
 
   const balanceUsd = convertClpToUsd(balance);
+
+  if (fetchingBalance) {
+    return (
+      <div data-page="user-account">
+        <Navbar />
+        <div data-section="content">
+          <p>Cargando balance...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div data-page="user-account">
