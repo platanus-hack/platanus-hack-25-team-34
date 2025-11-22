@@ -7,7 +7,7 @@ import ChartFromAPI from '../components/Chart';
 import Navbar from '../components/Navbar';
 import HoldingsList from '../components/HoldingsList';
 import InvestmentInput from '../components/InvestmentInput';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
 const TrackerDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -144,12 +144,6 @@ const TrackerDetailPage: React.FC = () => {
 
       <HoldingsList holdings={holdings} />
 
-      <div data-section="disclaimer">
-        <Button onClick={() => setShowDisclaimer(true)}>
-          Ver Disclaimer
-        </Button>
-      </div>
-
       {showDisclaimer && (
         <div data-component="modal" style={{
           position: 'fixed',
@@ -202,20 +196,37 @@ const TrackerDetailPage: React.FC = () => {
           <p style={{ color: 'green' }}>✓ ¡Inversión exitosa! Redirigiendo...</p>
         ) : (
           <form onSubmit={handleInvest}>
-            <InvestmentInput
+            <label>Monto (CLP):</label>
+            <input
+              type="number"
               value={investmentAmount}
-              onChange={setInvestmentAmount}
-              currency={currency}
-              onCurrencyChange={setCurrency}
+              onChange={(e) => setInvestmentAmount(e.target.value)}
+              placeholder="Ingresar monto"
+              min="1"
               disabled={investing}
+              style={{ width: '100%', padding: '10px', marginBottom: '10px' }}
             />
-            {investmentError && <p style={{ color: 'red', textAlign: 'center' }}>{String(investmentError)}</p>}
-            <Button type="submit" disabled={investing} fullWidth size="large" sx={{ mt: 2 }}>
+            {investmentError && <p style={{ color: 'red' }}>{String(investmentError)}</p>}
+            <Button type="submit" disabled={investing} fullWidth size="large">
               {investing ? 'Procesando...' : 'Invertir Ahora'}
             </Button>
           </form>
         )}
       </div>
+
+      <Typography 
+        onClick={() => setShowDisclaimer(true)}
+        sx={{ 
+          mt: 4, 
+          textAlign: 'center', 
+          color: 'text.secondary', 
+          cursor: 'pointer',
+          textDecoration: 'underline',
+          fontSize: '0.875rem'
+        }}
+      >
+        Ver Disclaimer
+      </Typography>
     </div>
   );
 };
