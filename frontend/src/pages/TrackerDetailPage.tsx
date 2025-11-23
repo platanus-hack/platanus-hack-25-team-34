@@ -4,7 +4,7 @@ import { trackerApi, investmentApi } from '../services/api';
 import type { Tracker, TrackerHolding } from '../types';
 import { useAuth } from '../context/AuthContext';
 import ChartFromAPI from '../components/Chart';
-import Navbar from '../components/Navbar';
+// import Navbar from '../components/Navbar';
 import HoldingsList from '../components/HoldingsList';
 import InvestmentInput from '../components/InvestmentInput';
 import { Button, Typography, Box, Container, Breadcrumbs, Link } from '@mui/material';
@@ -129,7 +129,7 @@ const TrackerDetailPage: React.FC = () => {
 
   return (
     <Box sx={{ backgroundColor: '#fff', minHeight: '100vh', pb: 8 }}>
-      <Navbar />
+      {/* <Navbar /> */}
 
       <Container maxWidth="lg" sx={{ mt: 4 }}>
         {/* Breadcrumbs */}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Container, Typography, Card, Chip } from '@mui/material';
-import Navbar from '../components/Navbar';
+// import Navbar from '../components/Navbar';
 
 interface Insight {
   id: number;
@@ -45,7 +45,7 @@ const insights: Insight[] = [
 const InsightsPage: React.FC = () => {
   return (
     <Box sx={{ backgroundColor: '#fff', minHeight: '100vh', pb: 8 }}>
-      <Navbar />
+      {/* <Navbar /> */}
       <Container maxWidth="lg" sx={{ mt: 4 }}>
         <Typography variant="h3" component="h1" sx={{ fontWeight: 'bold', mb: 4 }}>
           Insights 
