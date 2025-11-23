@@ -34,7 +34,7 @@ const HoldingItem: React.FC<HoldingItemProps> = ({ imageUrl, abbreviation, name,
             fontSize: '1.2rem',
           }}
         >
-          {!imageUrl && abbreviation[0]}
+          {abbreviation[0]}
         </Avatar>
         
         <Box>

@@ -27,6 +27,7 @@ const HoldingsList: React.FC<HoldingsListProps> = ({ holdings }) => {
         {holdings.map((holding) => (
           <HoldingItem
             key={holding.id}
+            imageUrl={`https://storage.googleapis.com/fintual-public/asset-logo-icons/${holding.ticker}.png`}
             abbreviation={holding.ticker}
             name={holding.company_name}
             percentage={holding.allocation_percent}
