@@ -22,7 +22,20 @@ const HoldingsList: React.FC<HoldingsListProps> = ({ holdings }) => {
         gap: 2,
         maxHeight: '400px',
         overflowY: 'auto',
-        pr: 1
+        pr: 2,
+        '&::-webkit-scrollbar': {
+          width: '6px',
+        },
+        '&::-webkit-scrollbar-track': {
+          background: 'transparent',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: '#000',
+          borderRadius: '0px',
+        },
+        '&::-webkit-scrollbar-thumb:hover': {
+          backgroundColor: '#333',
+        }
       }}>
         {holdings.map((holding) => (
           <HoldingItem
