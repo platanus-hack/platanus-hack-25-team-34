@@ -22,7 +22,6 @@ const TrackerDetailPage: React.FC = () => {
   const [error, setError] = useState<string>('');
   
   const [investmentAmount, setInvestmentAmount] = useState<string>('');
-  const [currency, setCurrency] = useState<'CLP' | 'USD'>('CLP');
   const [investing, setInvesting] = useState(false);
   const [investmentError, setInvestmentError] = useState<string>('');
   const [investmentSuccess, setInvestmentSuccess] = useState(false);
@@ -241,8 +240,6 @@ const TrackerDetailPage: React.FC = () => {
               <InvestmentInput
                 value={investmentAmount}
                 onChange={setInvestmentAmount}
-                currency={currency}
-                onCurrencyChange={setCurrency}
                 disabled={investing}
               />
               {investmentError && (
