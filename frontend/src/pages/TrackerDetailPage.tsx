@@ -136,7 +136,7 @@ const TrackerDetailPage: React.FC = () => {
         <Breadcrumbs 
           separator={<NavigateNextIcon fontSize="small" />} 
           aria-label="breadcrumb"
-          sx={{ mb: 2, color: '#666' }}
+          sx={{ mb: 2, color: '#666', display: { xs: 'flex', md: 'none' } }}
         >
           <Link underline="hover" color="inherit" href="/marketplace">
             fund
