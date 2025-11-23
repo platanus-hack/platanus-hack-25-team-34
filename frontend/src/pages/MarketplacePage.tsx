@@ -55,10 +55,10 @@ const MarketplacePage: React.FC = () => {
               mb: 1 
             }}
           >
-            Top Performing Hedgies
+            Nuestros mejores hedgies
           </Typography>
           <Typography variant="subtitle1" sx={{ color: '#6B7280', fontSize: '1.1rem' }}>
-            Follow the portfolios of the world's most influential investors.
+            Sigue los portafolios de los inversionistas más influyentes del mundo.
           </Typography>
         </Box>
 
