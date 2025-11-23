@@ -19,7 +19,13 @@ export const authApi = {
     const response = await apiClient.post("auth/dev-login", {
       user_id: userId,
     });
-    return response.data;
+    // Map backend response (user_id) to frontend User type (id)
+    const data = response.data;
+    return {
+      id: data.user_id,
+      name: data.name,
+      balance_clp: data.balance_clp
+    };
   },
 };
 

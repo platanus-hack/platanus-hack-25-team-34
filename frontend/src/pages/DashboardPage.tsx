@@ -17,7 +17,7 @@ const DashboardPage: React.FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!user) return;
+      if (!user || !user.id) return;
       try {
         const [portfolioData, transactionData] = await Promise.all([
           portfolioApi.getUserPortfolio(user.id),
