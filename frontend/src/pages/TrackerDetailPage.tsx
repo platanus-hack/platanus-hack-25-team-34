@@ -172,7 +172,7 @@ const TrackerDetailPage: React.FC = () => {
             </Typography>
           </Box>
 
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Typography variant="body1" sx={{ color: '#666' }}>Riesgo:</Typography>
             <CircleIcon sx={{ 
               fontSize: 12, 
@@ -182,7 +182,7 @@ const TrackerDetailPage: React.FC = () => {
             <Typography variant="body1" sx={{ fontWeight: 'bold', textTransform: 'capitalize' }}>
               {tracker.risk_level}
             </Typography>
-          </Box>
+          </Box> */}
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Typography variant="body1" sx={{ color: '#666' }}>Retraso promedio:</Typography>
@@ -324,7 +324,11 @@ const TrackerDetailPage: React.FC = () => {
                 ×
               </button>
               <h2>Disclaimer</h2>
-              <p>Disclaimer, Dani agrega un disclaimer aquí.</p>
+              <p>El usuario reconoce y acepta que toda inversión implica riesgos, incluyendo la pérdida total o parcial del capital invertido y la posibilidad de fluctuaciones en los mercados financieros. Los resultados pasados no garantizan rendimientos futuros, y ninguna estrategia o servicio disponible en este sitio asegura beneficios económicos.
+
+Las decisiones de inversión son adoptadas exclusivamente por el usuario bajo su propio criterio y responsabilidad. La empresa responsable de este sitio no asumirá responsabilidad por pérdidas, daños o consecuencias derivadas de tales decisiones, cualquiera sea su naturaleza.
+
+Al utilizar esta plataforma, el usuario declara haber comprendido y aceptado íntegramente los riesgos asociados a la inversión.</p>
               <Button onClick={() => setShowDisclaimer(false)}>
                 Cerrar
               </Button>
