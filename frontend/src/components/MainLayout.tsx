@@ -12,8 +12,7 @@ import {
   useMediaQuery, 
   useTheme,
   Avatar,
-  IconButton,
-  Chip 
+  IconButton
 } from '@mui/material';
 import { useAuth } from '../context/AuthContext';
 
@@ -128,25 +127,6 @@ const MainLayout: React.FC = () => {
               <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#111827', lineHeight: 1.2 }}>
                 {user?.name || 'Dev User'}
               </Typography>
-              
-              {/* THE FIX: Tech Chip with Clean Sans-Serif Font */}
-              <Chip 
-                label="LEVEL 1 ACCESS" 
-                size="small" 
-                sx={{ 
-                  height: 20, 
-                  fontSize: '0.65rem', 
-                  fontFamily: '"Inter", "Roboto", sans-serif', // Forced Sans-Serif
-                  fontWeight: 800,
-                  textTransform: 'uppercase', // Makes it look military/official
-                  letterSpacing: '0.05em',    // Adds readability
-                  bgcolor: '#F3F4F6', 
-                  color: '#374151',
-                  mt: 0.5,
-                  borderRadius: '6px',
-                  border: '1px solid #E5E7EB'
-                }} 
-              />
             </Box>
           </Box>
 
