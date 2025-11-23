@@ -101,13 +101,6 @@ const TrackerCard: React.FC<TrackerCardProps> = ({ tracker, onClick }) => {
               {isPositive ? '+' : ''}{tracker.ytd_return}%
             </span>
           </div>
-          
-          <div style={{ width: '1px', height: '24px', backgroundColor: '#eee' }}></div>
-          
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ color: '#888', fontSize: '11px' }}>Riesgo</span>
-            <span style={{ color: '#555', fontWeight: '500' }}>{tracker.risk_level}</span>
-          </div>
         </div>
 
         {/* Progress Bar */}
