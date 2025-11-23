@@ -58,7 +58,7 @@ const InsightsPage: React.FC = () => {
                 <Typography variant="caption" sx={{ color: '#B85C3E', mb: 1, letterSpacing: 1, fontSize: '0.8rem', fontWeight: 500 }}>
                   {insight.investor} <span style={{ color: '#E8A890' }}>|</span> {insight.ticker}
                 </Typography>
-                <Typography variant="h5" component="h2" sx={{ color: '#D84315', fontWeight: 'bold', mb: 2, lineHeight: 1.2 }}>
+                <Typography variant="h5" component="h2" sx={{ color: '#000', fontWeight: 'bold', mb: 2, lineHeight: 1.2 }}>
                   {insight.title}
                 </Typography>
                 <Typography variant="body1" sx={{ color: '#8B5E4A', mb: 3 }}>
