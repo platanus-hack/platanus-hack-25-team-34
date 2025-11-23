@@ -20,7 +20,7 @@ const UserAccountPage: React.FC = () => {
 
   useEffect(() => {
     const fetchBalance = async () => {
-      if (!user) return;
+      if (!user || !user.id) return;
       
       setFetchingBalance(true);
       try {
