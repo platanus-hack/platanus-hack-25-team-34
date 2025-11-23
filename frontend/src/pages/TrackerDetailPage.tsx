@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { trackerApi, investmentApi } from '../services/api';
 import type { Tracker, TrackerHolding } from '../types';
 import { useAuth } from '../context/AuthContext';
 import ChartFromAPI from '../components/Chart';
 import HoldingsList from '../components/HoldingsList';
 import { 
-  Button, Typography, Box, Container, Chip, Stack, Input, 
-  InputAdornment, Fade, CircularProgress, Alert
+  Button, Typography, Box, Container, Stack, Input, 
+  InputAdornment, Fade, CircularProgress, Alert, Breadcrumbs, Link
 } from '@mui/material';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import GroupIcon from '@mui/icons-material/Group';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 const TrackerDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   const { user, updateUser } = useAuth();
   
   const [tracker, setTracker] = useState<Tracker | null>(null);
@@ -87,11 +86,6 @@ const TrackerDetailPage: React.FC = () => {
   return (
     <Box sx={{ pb: 12, pt: 4 }}> 
       <Container maxWidth="md">
-        
-    <Box sx={{ backgroundColor: '#fff', minHeight: '100vh', pb: 8 }}>
-      {/* <Navbar /> */}
-
-      <Container maxWidth="lg" sx={{ mt: 4 }}>
         {/* Breadcrumbs */}
         <Breadcrumbs 
           separator={<NavigateNextIcon fontSize="small" />} 
@@ -106,29 +100,18 @@ const TrackerDetailPage: React.FC = () => {
 
         {/* Header */}
         <Box sx={{ mb: 4 }}>
-            <Button 
+            {/* <Button 
                 startIcon={<ArrowBackIcon />} 
                 onClick={() => navigate('/marketplace')}
                 sx={{ color: '#9CA3AF', mb: 2, pl: 0, '&:hover': { background: 'transparent', color: '#111827' } }}
             >
                 Back to Terminal
             </Button>
-            
+             */}
             <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 1 }}>
                 <Typography variant="h3" component="h1" sx={{ fontWeight: 800, letterSpacing: '-0.03em', color: '#111827' }}>
                     {tracker.name}
                 </Typography>
-                <Chip 
-                    label={tracker.type || 'FUND'} 
-                    size="small"
-                    sx={{ 
-                        borderRadius: 0, // Sharp corners = Punk
-                        fontWeight: 700, 
-                        fontSize: '0.7rem',
-                        bgcolor: '#000',
-                        color: '#fff',
-                    }}
-                />
             </Stack>
             <Typography variant="body1" sx={{ color: '#6B7280', maxWidth: '600px', lineHeight: 1.6 }}>
                 {tracker.description}
@@ -138,7 +121,7 @@ const TrackerDetailPage: React.FC = () => {
         {/* Data Strip */}
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4, py: 3, borderBottom: '2px solid #000', borderTop: '2px solid #000', mb: 5 }}>
             <Box>
-                <Typography variant="caption" sx={{ color: '#9CA3AF', fontWeight: 600, letterSpacing: '0.05em' }}>YTD RETURN</Typography>
+                <Typography variant="caption" sx={{ color: '#9CA3AF', fontWeight: 600, letterSpacing: '0.05em' }}>RETOORNO YTD</Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     {isPositive ? <TrendingUpIcon color="success" /> : <TrendingDownIcon color="error" />}
                     <Typography variant="h5" sx={{ fontFamily: 'monospace', fontWeight: 700, color: isPositive ? '#00C853' : '#EF4444', letterSpacing: '-0.05em' }}>
@@ -147,14 +130,14 @@ const TrackerDetailPage: React.FC = () => {
                 </Box>
             </Box>
             <Box>
-                <Typography variant="caption" sx={{ color: '#9CA3AF', fontWeight: 600, letterSpacing: '0.05em' }}>13F DELAY</Typography>
+                <Typography variant="caption" sx={{ color: '#9CA3AF', fontWeight: 600, letterSpacing: '0.05em' }}>RETRASO PROMEDIO</Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <AccessTimeIcon sx={{ color: '#4B5563', fontSize: 20 }} />
-                    <Typography variant="h6" sx={{ fontFamily: 'monospace', fontWeight: 600 }}>{tracker.average_delay} DAYS</Typography>
+                    <Typography variant="h6" sx={{ fontFamily: 'monospace', fontWeight: 600 }}>{tracker.average_delay} DÍAS</Typography>
                 </Box>
             </Box>
             <Box>
-                <Typography variant="caption" sx={{ color: '#9CA3AF', fontWeight: 600, letterSpacing: '0.05em' }}>TRACKERS</Typography>
+                <Typography variant="caption" sx={{ color: '#9CA3AF', fontWeight: 600, letterSpacing: '0.05em' }}>SEGUIDORES</Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <GroupIcon sx={{ color: '#4B5563', fontSize: 20 }} />
                     <Typography variant="h6" sx={{ fontFamily: 'monospace', fontWeight: 600 }}>{tracker.followers_count.toLocaleString()}</Typography>
@@ -164,7 +147,7 @@ const TrackerDetailPage: React.FC = () => {
 
         {/* Personal Position */}
         <Box sx={{ mb: 6 }}>
-            <Typography variant="body2" sx={{ color: '#6B7280', mb: 0.5 }}>Current Position</Typography>
+            <Typography variant="body2" sx={{ color: '#6B7280', mb: 0.5 }}>Tu inversión en {tracker.name}</Typography>
             <Typography variant="h2" sx={{ fontWeight: 700, fontFamily: 'monospace', letterSpacing: '-0.04em', color: '#111827' }}>$0</Typography>
             <Typography variant="body2" sx={{ color: '#00C853', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 0.5 }}>
                  <TrendingUpIcon fontSize="small" /> $0 (+0%) Today
@@ -183,7 +166,7 @@ const TrackerDetailPage: React.FC = () => {
             mb: 6, 
             position: 'relative',
             '&:after': {
-                content: '"HOLDINGS_BREAKDOWN"',
+                content: '""',
                 position: 'absolute',
                 top: -10,
                 right: 0,
@@ -197,15 +180,15 @@ const TrackerDetailPage: React.FC = () => {
 
         {/* Holdings */}
         <Box sx={{ mb: 8 }}>
-            <Typography variant="h6" sx={{ fontWeight: 700, mb: 3 }}>Portfolio Composition</Typography>
+            <Typography variant="h6" sx={{ fontWeight: 700, mb: 3 }}>Composición del portafolio</Typography>
             <HoldingsList holdings={holdings} />
         </Box>
 
         {/* Investment Form */}
         <Box sx={{ maxWidth: 500 }}>
-            <Typography variant="h5" sx={{ fontWeight: 800, mb: 1 }}>Deploy Capital</Typography>
+            <Typography variant="h5" sx={{ fontWeight: 800, mb: 1 }}>Invertir capital</Typography>
             <Typography variant="body2" sx={{ color: '#6B7280', mb: 4, fontFamily: 'monospace' }}>
-                AVAILABLE: {formatCurrency(user?.balance_clp || 0)}
+                Balance: {formatCurrency(user?.balance_clp || 0)}
             </Typography>
 
             {investmentSuccess ? (
@@ -248,7 +231,7 @@ const TrackerDetailPage: React.FC = () => {
         {/* Disclaimer Link */}
         <Box sx={{ mt: 8 }}>
              <Typography onClick={() => setShowDisclaimer(true)} variant="caption" sx={{ color: '#9CA3AF', cursor: 'pointer', textDecoration: 'underline', fontFamily: 'monospace' }}>
-                LEGAL_DISCLAIMER_V1.txt
+                Disclaimer
             </Typography>
         </Box>
 
@@ -258,7 +241,11 @@ const TrackerDetailPage: React.FC = () => {
               <Box sx={{ bgcolor: 'white', p: 4, maxWidth: 500, mx: 2, border: '2px solid black' }} onClick={(e) => e.stopPropagation()}>
                 <Typography variant="h6" sx={{ fontWeight: 800, mb: 2, fontFamily: 'monospace' }}>RISK_DISCLOSURE</Typography>
                 <Typography variant="body2" sx={{fontFamily: 'monospace', fontSize: '0.8rem'}} paragraph>
-                    Trading involves substantial risk of loss...
+                    El usuario reconoce y acepta que toda inversión implica riesgos, incluyendo la pérdida total o parcial del capital invertido y la posibilidad de fluctuaciones en los mercados financieros. Los resultados pasados no garantizan rendimientos futuros, y ninguna estrategia o servicio disponible en este sitio asegura beneficios económicos.
+
+Las decisiones de inversión son adoptadas exclusivamente por el usuario bajo su propio criterio y responsabilidad. La empresa responsable de este sitio no asumirá responsabilidad por pérdidas, daños o consecuencias derivadas de tales decisiones, cualquiera sea su naturaleza.
+
+Al utilizar esta plataforma, el usuario declara haber comprendido y aceptado íntegramente los riesgos asociados a la inversión.
                 </Typography>
                 <Button fullWidth onClick={() => setShowDisclaimer(false)} sx={{ mt: 2, color: 'white', bgcolor: 'black', fontWeight: 700, borderRadius: 0, '&:hover':{bgcolor:'#333'} }}>ACKNOWLEDGE</Button>
               </Box>

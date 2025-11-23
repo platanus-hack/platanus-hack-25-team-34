@@ -2,8 +2,7 @@ import { useState, useCallback, useEffect, useMemo } from "react";
 // @ts-ignore
 import { VegaEmbed } from "react-vega";
 import { chartApi } from "../services/api";
-import { Box, Typography, Skeleton, Fade } from "@mui/material";
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import { Box, Typography, Skeleton } from "@mui/material";
 
 interface ChartProps {
   trackerId?: number;
@@ -157,28 +156,6 @@ function AdvancedChartGenerator({ trackerId }: ChartProps) {
 
   return (
     <Box sx={{ position: 'relative', width: '100%' }}>
-      {/* 1. Header: "Metrics_v2.0" + Live Pulse */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, borderBottom: '2px solid #000', pb: 1 }}>
-        <Typography variant="caption" sx={{ 
-            fontFamily: 'monospace', 
-            fontWeight: 800, 
-            color: '#000',
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em'
-        }}>
-            Metrics_v2.0
-        </Typography>
-        
-        <Fade in={true} timeout={2000}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <FiberManualRecordIcon sx={{ fontSize: 10, color: '#EF4444', animation: 'pulse 1.5s infinite' }} />
-                <Typography variant="caption" sx={{ fontWeight: 700, color: '#EF4444', fontSize: '0.65rem', fontFamily: 'monospace' }}>
-                    LIVE_FEED
-                </Typography>
-            </Box>
-        </Fade>
-      </Box>
-
       {/* 2. The Chart Container */}
       <Box 
         sx={{ 
@@ -202,25 +179,7 @@ function AdvancedChartGenerator({ trackerId }: ChartProps) {
           }
         }}
       >
-        <VegaEmbed spec={chartSpec} options={vegaOptions} style={{ width: '100%' }} />
-      </Box>
-
-      {/* 3. The "Confidential" Footer Stamp */}
-      <Box sx={{ position: 'absolute', bottom: -15, right: 0, opacity: 0.8, zIndex: 0, pointerEvents: 'none' }}>
-         <Typography variant="caption" sx={{ 
-             fontFamily: 'monospace', 
-             color: '#EF4444', 
-             fontSize: '0.6rem',
-             fontWeight: 700,
-             border: '1px solid #EF4444',
-             padding: '2px 6px',
-             transform: 'rotate(-2deg)', 
-             display: 'inline-block',
-             letterSpacing: '0.1em',
-             bgcolor: 'rgba(255,255,255,0.8)' // Tiny background to ensure readability over grid
-         }}>
-             CONFIDENTIAL
-         </Typography>
+        <VegaEmbed spec={chartSpec} options={vegaOptions} />
       </Box>
     </Box>
   );
