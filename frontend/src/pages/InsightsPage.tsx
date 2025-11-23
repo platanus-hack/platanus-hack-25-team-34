@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box, Container, Typography, Card, Chip } from '@mui/material';
-// import Navbar from '../components/Navbar';
+import { Box, Container, Typography, Card } from '@mui/material';
+import Navbar from '../components/Navbar';
 
 interface Insight {
   id: number;
@@ -19,7 +19,7 @@ const insights: Insight[] = [
     ticker: 'GOOGL',
     title: 'Flamante nueva versión de Gemini enciende la acción de Alphabet',
     description: '',
-    tag: 'LANZAMIENTO',
+    tag: 'Trending',
     imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/c/c3/Sundar_Pichai_-_2023_%28cropped%29.jpg'
   },
   {
@@ -28,17 +28,26 @@ const insights: Insight[] = [
     ticker: 'APPL',
     title: 'Pelosi Index: cómo la expresidenta de la Cámara de Reprepresentantes de EEUU se convirtió en un referente del mercado accionario [DF]',
     description: '',
-    tag: 'LANZAMIENTO',
+    tag: '',
     imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Official_photo_of_Speaker_Nancy_Pelosi_in_2019.jpg/330px-Official_photo_of_Speaker_Nancy_Pelosi_in_2019.jpg'
   },
   {
     id: 3,
-    investor: 'XI JINPING',
-    ticker: 'FTSE China A50',
-    title: '¿Llegó el momento de China? Lo que nos dicen sus resultados corporativos [Fintualist]',
+    investor: 'WARREN BUFFETT',
+    ticker: 'GOOGL',
+    title: 'Birkshare Hathaway invierte en Alphabet cerca de máximos históricos',
     description: '',
-    tag: 'LANZAMIENTO',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Xi_Jinping_2025_%28cropped%29.jpg/500px-Xi_Jinping_2025_%28cropped%29.jpg'
+    tag: '',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Warren_Buffett_at_the_2015_SelectUSA_Investment_Summit_%28cropped%29.jpg/250px-Warren_Buffett_at_the_2015_SelectUSA_Investment_Summit_%28cropped%29.jpg'
+  },
+  {
+    id: 4,
+    investor: 'NANCY PELOSI',
+    ticker: 'NVDA',
+    title: 'Una de las mayores de las acciones de Nancy Pelosi, NVIDIA, es puesta en duda por el inversor Michael Blurry quién compró acciones PUT apostando su caída',
+    description: '',
+    tag: '',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Nancy_Pelosi_1993_congressional_photo.jpg/250px-Nancy_Pelosi_1993_congressional_photo.jpg'
   }
 ];
 
@@ -64,18 +73,6 @@ const InsightsPage: React.FC = () => {
                 <Typography variant="body1" sx={{ color: '#8B5E4A', mb: 3 }}>
                   {insight.description}
                 </Typography>
-                <Box>
-                  <Chip 
-                    label={insight.tag} 
-                    sx={{ 
-                      backgroundColor: '#BBDEFB', 
-                      color: '#1976D2', 
-                      fontWeight: 'bold',
-                      borderRadius: 2,
-                      height: 32
-                    }} 
-                  />
-                </Box>
               </Box>
               <Box 
                 sx={{ 
