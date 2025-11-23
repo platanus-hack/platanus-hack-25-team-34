@@ -79,5 +79,113 @@
         "allocation_percent": 18.0
       }
     ]
+  },
+  {
+    "name": "Bill Ackman",
+    "type": "fund",
+    "avatar_url": "https://kagi.com/proxy/GettyImages-622173252.jpg?c=heUdOr9RUxnCihZzJQhnN4m6djXaUb80T9Int9DbEFnoAK1O_E3rRrXBo_WjrZ1LsN-3sXfskCXTSAkQ8fmA2xqWmL3vKSs6G5XQ0284ZF5xPKQWkjNZhJYnzDe6FgbrPxEhcLVR7z82MwPP9bqiXap1wsRY0w7RGex_NPrsMvs%3D",
+    "description": "Billionaire hedge fund manager and activist investor who founded Pershing Square Capital Management.",
+    "ytd_return": 15.2,
+    "average_delay": 90,
+    "risk_level": "Low",
+    "followers_count": 5000,
+    "holdings": [
+      {
+        "ticker": "UBER",
+        "company_name": "Uber Technologies",
+        "allocation_percent": 20.0
+      },
+      {
+        "ticker": "BN",
+        "company_name": "Brookfield Corp",
+        "allocation_percent": 19.0
+      },
+      {
+        "ticker": "HHH",
+        "company_name": "Howard Hughes Holdings Inc",
+        "allocation_percent": 15.0
+      }
+    ]
+  },
+  {
+    "name": "Omar Larre - Risky Norris",
+    "type": "fund",
+    "avatar_url": "https://kagi.com/proxy/1735324784358?c=d7Hu1iRd9QOtfcPjG7-7fh0NfssQ6NFvx4iBi22Ev6859WD1J0XYY_2eYtiUrjpojUl0KdblFwN9oDk52Sqyn26Ua3-G4I4c_CtPh9-j3w-jvA4TxD6_rGwza8JMmXePifVH5CO8-2nHFEb69SaEa4nTE82xXU9Ex7t5kbMjvejidzu8FXNGPFYfoBEU20xsrKRXqlmGJ3QXQ2lSCwqAiMW-SmhBYmjquT9XTG64c55cPdhPi-pT6gR5se0W2wGaXHOFaViQqtEcVk1-_isrlA%3D%3D",
+    "description": "Omar Larre is the co-founder and CIO of Fintual, the Chilean fintech company that offers the Risky Norris mutual fund.",
+    "ytd_return": 15.2,
+    "average_delay": 90,
+    "risk_level": "Low",
+    "followers_count": 5000,
+    "holdings": [
+      {
+        "ticker": "ESGV",
+        "company_name": "Vanguard ESG US",
+        "allocation_percent": 30.0
+      },
+      {
+        "ticker": "FTEC",
+        "company_name": "Fidelity MSCI Information Technology",
+        "allocation_percent": 18.0
+      },
+      {
+        "ticker": "QQQM",
+        "company_name": "Invesco NASDAQ 100 ETF",
+        "allocation_percent": 17.8
+      }
+    ]
+  },
+  {
+    "name": "Bryan Lawrence",
+    "type": "fund",
+    "avatar_url": "https://nota.fm/images/gphotos/gp-20220418163329-brian_lawrence.jpg",
+    "description": "Bryan Lawrence is the founder of Oakcliff Capital, a value investor known for making long-term, concentrated investments in undervalued, high-quality businesses",
+    "ytd_return": 15.2,
+    "average_delay": 90,
+    "risk_level": "Low",
+    "followers_count": 5000,
+    "holdings": [
+      {
+        "ticker": "IBKR",
+        "company_name": "Interactive Brokers Group, Inc",
+        "allocation_percent": 31.0
+      },
+      {
+        "ticker": "GIL",
+        "company_name": "Gildan Activewear Inc",
+        "allocation_percent": 17.0
+      },
+      {
+        "ticker": "TDG",
+        "company_name": "TransDigm Group Inc",
+        "allocation_percent": 16.0
+      }
+    ]
+  },
+  {
+    "name": "Norbert Lou",
+    "type": "fund",
+    "avatar_url": "https://kagi.com/proxy/21-213224_unknown-person-icon-png-download.png?c=8i1RVpXctIdmxazR4ylanrYKvzr9vOzD26YLYbbHP4iE7wyIvVLddUxPQQQn7ZIYHrQ8CyZWlLzPH31Ftk70xmzoN2XouyfPLY_YuJQoSWCARkxAlPN0ZbuXmH4tRkO9",
+    "description": "Bryan Lawrence is the founder of Oakcliff Capital, a value investor known for making long-term, concentrated investments in undervalued, high-quality businesses",
+    "ytd_return": 15.2,
+    "average_delay": 90,
+    "risk_level": "Low",
+    "followers_count": 5000,
+    "holdings": [
+      {
+        "ticker": "BRK.A",
+        "company_name": "Berkshire Hathaway Inc.",
+        "allocation_percent": 34.0
+      },
+      {
+        "ticker": "SGOV",
+        "company_name": "iShares 0-3 Month Treasury Bond ETF",
+        "allocation_percent": 18.0
+      },
+      {
+        "ticker": "PDD",
+        "company_name": "PDD Holdings",
+        "allocation_percent": 13.0
+      }
+    ]
   }
 ]
