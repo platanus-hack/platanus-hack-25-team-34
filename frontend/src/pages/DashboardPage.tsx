@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { portfolioApi, transactionApi } from '../services/api';
 import type { Portfolio, Transaction } from '../types';
 import { useAuth } from '../context/AuthContext';
-import Navbar from '../components/Navbar';
+// import Navbar from '../components/Navbar';
 import ActiveTrackerCard from '../components/ActiveTrackerCard';
 import { Button } from '@mui/material';
 
@@ -65,7 +65,7 @@ const DashboardPage: React.FC = () => {
 
   return (
     <div style={{ padding: '20px', backgroundColor: '#F5F5F5', minHeight: '100vh' }}>
-      <Navbar />
+      {/* <Navbar /> */}
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
           <h1 style={{ color: '#333' }}>Portafolio</h1>

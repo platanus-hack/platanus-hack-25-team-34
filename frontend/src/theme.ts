@@ -1,77 +1,61 @@
 import { createTheme } from '@mui/material/styles';
 
+// Add this link to your index.html head for the full effect:
+// <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
 const theme = createTheme({
   typography: {
-    fontFamily: [
-      'Instrument Sans',
-      'Inter',
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
-    h1: { fontWeight: 700 },
-    h2: { fontWeight: 700 },
-    h3: { fontWeight: 600 },
-    h4: { fontWeight: 600 },
-    h5: { fontWeight: 600 },
-    h6: { fontWeight: 600 },
-    button: { textTransform: 'none', fontWeight: 500 },
+    fontFamily: '"Instrument Sans", "Inter", sans-serif',
+    // The "Secret" font for numbers, financial data, and sensitive info
+    button: { 
+      fontFamily: '"Instrument Sans", sans-serif',
+      textTransform: 'none', 
+      fontWeight: 600 
+    },
+    // We create a custom variant for "Data"
+    subtitle2: {
+      fontFamily: '"JetBrains Mono", monospace',
+      fontWeight: 500,
+      fontSize: '0.8rem',
+      letterSpacing: '-0.02em',
+    }
   },
   palette: {
     primary: {
-      main: '#000000', // Black primary
+      main: '#111827', // Obsidian Black (Professional)
     },
     secondary: {
-      main: '#00C853', // Green accent
+      main: '#FF6B6B', // THE HEDGIE RED NOSE (The Brand Accent)
     },
-    error: {
-      main: '#FF5252', // Red accent
+    success: {
+      main: '#00C853',
+      light: '#D1FAE5',
     },
     background: {
-      default: '#F5F5F5',
+      default: '#F9FAFB', // Cool gray background
       paper: '#FFFFFF',
     },
+    text: {
+      primary: '#111827',
+      secondary: '#6B7280',
+    }
   },
   components: {
     MuiButton: {
-      defaultProps: {
-        variant: 'outlined',
-        color: 'error',
-      },
       styleOverrides: {
         root: {
           borderRadius: 8,
           boxShadow: 'none',
-          textTransform: 'none',
-          fontWeight: 600,
-          '&:hover': {
-            boxShadow: 'none',
-          },
-        },
-        outlinedError: {
-          borderColor: 'rgb(255, 82, 82)',
-          color: 'rgb(255, 82, 82)',
-          borderWidth: '1.5px',
-          '&:hover': {
-            borderColor: 'rgb(255, 82, 82)',
-            backgroundColor: 'rgba(255, 82, 82, 0.04)',
-            borderWidth: '1.5px',
-          },
+          '&:hover': { boxShadow: 'none' },
         },
       },
     },
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 12,
-          boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+          borderRadius: 16, // Softer, more modern corners
+          border: '1px solid #E5E7EB',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)',
         },
       },
     },

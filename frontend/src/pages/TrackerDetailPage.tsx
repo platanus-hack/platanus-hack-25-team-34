@@ -4,12 +4,15 @@ import { trackerApi, investmentApi } from '../services/api';
 import type { Tracker, TrackerHolding } from '../types';
 import { useAuth } from '../context/AuthContext';
 import ChartFromAPI from '../components/Chart';
-import Navbar from '../components/Navbar';
 import HoldingsList from '../components/HoldingsList';
-import InvestmentInput from '../components/InvestmentInput';
-import { Button, Typography, Box, Container, Breadcrumbs, Link } from '@mui/material';
-import CircleIcon from '@mui/icons-material/Circle';
+import { 
+  Button, Typography, Box, Container, Stack, Input, 
+  InputAdornment, Fade, CircularProgress, Alert, Breadcrumbs, Link
+} from '@mui/material';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import TrendingDownIcon from '@mui/icons-material/TrendingDown';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import GroupIcon from '@mui/icons-material/Group';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 const TrackerDetailPage: React.FC = () => {
@@ -30,7 +33,6 @@ const TrackerDetailPage: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (!id) return;
-      
       try {
         const [trackerData, holdingsData] = await Promise.all([
           trackerApi.getTrackerDetails(Number(id)),
@@ -39,73 +41,33 @@ const TrackerDetailPage: React.FC = () => {
         setTracker(trackerData);
         setHoldings(holdingsData);
       } catch (err) {
-        setError('Error al cargar los detalles del portafolio');
-        console.error(err);
+        setError('Error loading proprietary data.');
       } finally {
         setLoading(false);
       }
     };
-
     fetchData();
   }, [id]);
-
-  const parseErrorMessage = (err: any): string => {
-    let errorMessage = 'La inversión falló';
-    
-    if (err.response?.data) {
-      const errorData = err.response.data;
-      
-      // FastAPI validation error format
-      if (errorData.detail && Array.isArray(errorData.detail)) {
-        errorMessage = errorData.detail
-          .map((e: any) => e.msg || JSON.stringify(e))
-          .join(', ');
-      } 
-      // Simple string detail
-      else if (typeof errorData.detail === 'string') {
-        errorMessage = errorData.detail;
-      }
-      // Generic error object
-      else if (errorData.error) {
-        errorMessage = errorData.error;
-      }
-    }
-    
-    return errorMessage;
-  };
 
   const handleInvest = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user || !tracker) return;
-
     const amount = parseFloat(investmentAmount);
-    if (isNaN(amount) || amount <= 0) {
-      setInvestmentError('Por favor ingrese un monto válido');
-      return;
-    }
-
-    if (amount > user.balance_clp) {
-      setInvestmentError('Saldo insuficiente');
-      return;
-    }
+    if (isNaN(amount) || amount <= 0) { setInvestmentError('INVALID AMOUNT'); return; }
+    if (amount > user.balance_clp) { setInvestmentError('INSUFFICIENT FUNDS'); return; }
 
     setInvesting(true);
     setInvestmentError('');
 
     try {
       const response = await investmentApi.executeInvestment(user.id, tracker.id, amount);
-      
-      // Update user balance in AuthContext
       if (updateUser && response.remaining_balance !== undefined) {
         updateUser({ ...user, balance_clp: response.remaining_balance });
       }
-      
       setInvestmentSuccess(true);
       setInvestmentAmount('');
-      
     } catch (err: any) {
-      console.error('Investment error:', err.response?.data);
-      setInvestmentError(parseErrorMessage(err));
+      setInvestmentError('TRANSACTION FAILED');
     } finally {
       setInvesting(false);
     }
@@ -113,25 +75,17 @@ const TrackerDetailPage: React.FC = () => {
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('es-CL', {
-      style: 'currency',
-      currency: 'CLP',
-      minimumFractionDigits: 0,
+      style: 'currency', currency: 'CLP', minimumFractionDigits: 0,
     }).format(amount);
   };
 
-  if (loading) {
-    return <div style={{ textAlign: 'center', marginTop: '50px' }}>Cargando...</div>;
-  }
-
-  if (error || !tracker) {
-    return <div style={{ textAlign: 'center', marginTop: '50px', color: 'red' }}>{error || 'Portafolio no encontrado'}</div>;
-  }
+  if (loading) return <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><CircularProgress sx={{ color: '#000' }} /></Box>;
+  if (error || !tracker) return <Box sx={{ p: 4, textAlign: 'center', color: 'error.main' }}>{error}</Box>;
+  const isPositive = tracker.ytd_return >= 0;
 
   return (
-    <Box sx={{ backgroundColor: '#fff', minHeight: '100vh', pb: 8 }}>
-      <Navbar />
-
-      <Container maxWidth="lg" sx={{ mt: 4 }}>
+    <Box sx={{ pb: 12, pt: 4 }}> 
+      <Container maxWidth="md">
         {/* Breadcrumbs */}
         <Breadcrumbs 
           separator={<NavigateNextIcon fontSize="small" />} 
@@ -145,195 +99,158 @@ const TrackerDetailPage: React.FC = () => {
         </Breadcrumbs>
 
         {/* Header */}
-        <Typography variant="h3" component="h1" sx={{ fontWeight: 'bold', mb: 1 }}>
-          {tracker.name}
-        </Typography>
-        <Typography variant="subtitle1" sx={{ color: '#666', mb: 3 }}>
-          {tracker.description}
-        </Typography>
-
-        {/* Metrics Row */}
-        <Box sx={{ 
-          display: 'flex', 
-          flexWrap: 'wrap', 
-          gap: 4, 
-          alignItems: 'center',
-          mb: 4,
-          borderBottom: '1px solid #eee',
-          pb: 4
-        }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Typography variant="body1" sx={{ color: '#666' }}>Retorno YTD:</Typography>
-            <Typography variant="body1" sx={{ 
-              color: tracker.ytd_return >= 0 ? '#00C853' : '#D32F2F', 
-              fontWeight: 'bold' 
-            }}>
-              {tracker.ytd_return >= 0 ? '+' : ''}{tracker.ytd_return}%
-            </Typography>
-          </Box>
-
-          {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Typography variant="body1" sx={{ color: '#666' }}>Riesgo:</Typography>
-            <CircleIcon sx={{ 
-              fontSize: 12, 
-              color: tracker.risk_level.toLowerCase() === 'bajo' || tracker.risk_level.toLowerCase() === 'low' ? '#00C853' : 
-                     tracker.risk_level.toLowerCase() === 'medio' || tracker.risk_level.toLowerCase() === 'medium' ? '#FFB300' : '#D32F2F'
-            }} />
-            <Typography variant="body1" sx={{ fontWeight: 'bold', textTransform: 'capitalize' }}>
-              {tracker.risk_level}
-            </Typography>
-          </Box> */}
-
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Typography variant="body1" sx={{ color: '#666' }}>Retraso promedio:</Typography>
-            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-              {tracker.average_delay} días
-            </Typography>
-          </Box>
-
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Typography variant="body1" sx={{ color: '#666' }}>Seguidores:</Typography>
-            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-              {tracker.followers_count.toLocaleString()}
-            </Typography>
-          </Box>
-        </Box>
-
-        {/* User Investment Section */}
         <Box sx={{ mb: 4 }}>
-          <Typography variant="body1" sx={{ color: '#666', mb: 1 }}>
-            Tu inversión en {tracker.name}
-          </Typography>
-          <Typography variant="h3" sx={{ fontWeight: 'bold', mb: 1 }}>
-            $0
-          </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <TrendingUpIcon sx={{ color: '#00C853' }} />
-            <Typography variant="body1" sx={{ color: '#00C853', fontWeight: 'bold' }}>
-              $0 (+0%) Hoy
+            {/* <Button 
+                startIcon={<ArrowBackIcon />} 
+                onClick={() => navigate('/marketplace')}
+                sx={{ color: '#9CA3AF', mb: 2, pl: 0, '&:hover': { background: 'transparent', color: '#111827' } }}
+            >
+                Back to Terminal
+            </Button>
+             */}
+            <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 1 }}>
+                <Typography variant="h3" component="h1" sx={{ fontWeight: 800, letterSpacing: '-0.03em', color: '#111827' }}>
+                    {tracker.name}
+                </Typography>
+            </Stack>
+            <Typography variant="body1" sx={{ color: '#6B7280', maxWidth: '600px', lineHeight: 1.6 }}>
+                {tracker.description}
             </Typography>
-          </Box>
         </Box>
 
-        {/* Mandar un dato de tracker.id */}
-        <ChartFromAPI trackerId={tracker.id} />
+        {/* Data Strip */}
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4, py: 3, borderBottom: '2px solid #000', borderTop: '2px solid #000', mb: 5 }}>
+            <Box>
+                <Typography variant="caption" sx={{ color: '#9CA3AF', fontWeight: 600, letterSpacing: '0.05em' }}>RETOORNO YTD</Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    {isPositive ? <TrendingUpIcon color="success" /> : <TrendingDownIcon color="error" />}
+                    <Typography variant="h5" sx={{ fontFamily: 'monospace', fontWeight: 700, color: isPositive ? '#00C853' : '#EF4444', letterSpacing: '-0.05em' }}>
+                        {isPositive ? '+' : ''}{tracker.ytd_return}%
+                    </Typography>
+                </Box>
+            </Box>
+            <Box>
+                <Typography variant="caption" sx={{ color: '#9CA3AF', fontWeight: 600, letterSpacing: '0.05em' }}>RETRASO PROMEDIO</Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <AccessTimeIcon sx={{ color: '#4B5563', fontSize: 20 }} />
+                    <Typography variant="h6" sx={{ fontFamily: 'monospace', fontWeight: 600 }}>{tracker.average_delay} DÍAS</Typography>
+                </Box>
+            </Box>
+            <Box>
+                <Typography variant="caption" sx={{ color: '#9CA3AF', fontWeight: 600, letterSpacing: '0.05em' }}>SEGUIDORES</Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <GroupIcon sx={{ color: '#4B5563', fontSize: 20 }} />
+                    <Typography variant="h6" sx={{ fontFamily: 'monospace', fontWeight: 600 }}>{tracker.followers_count.toLocaleString()}</Typography>
+                </Box>
+            </Box>
+        </Box>
 
-        <Box sx={{ mt: 4 }}>
-          <HoldingsList holdings={holdings} />
+        {/* Personal Position */}
+        <Box sx={{ mb: 6 }}>
+            <Typography variant="body2" sx={{ color: '#6B7280', mb: 0.5 }}>Tu inversión en {tracker.name}</Typography>
+            <Typography variant="h2" sx={{ fontWeight: 700, fontFamily: 'monospace', letterSpacing: '-0.04em', color: '#111827' }}>$0</Typography>
+            <Typography variant="body2" sx={{ color: '#00C853', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                 <TrendingUpIcon fontSize="small" /> $0 (+0%) Today
+            </Typography>
+        </Box>
+
+        {/* CHART SECTION: Fixed Overlap */}
+        {/* Increased height to 350 to fit axis labels, Added mb-10 for breathing room */}
+        <Box sx={{ mb: 10, height: 350, width: '100%' }}>
+             <ChartFromAPI trackerId={tracker.id} />
+        </Box>
+
+        {/* Punk Divider: The Tear-off line */}
+        <Box sx={{ 
+            borderBottom: '2px dashed #D1D5DB', 
+            mb: 6, 
+            position: 'relative',
+            '&:after': {
+                content: '""',
+                position: 'absolute',
+                top: -10,
+                right: 0,
+                background: '#F9FAFB', // Matches page bg
+                paddingLeft: 1,
+                fontFamily: 'monospace',
+                fontSize: '0.7rem',
+                color: '#9CA3AF'
+            }
+        }} />
+
+        {/* Holdings */}
+        <Box sx={{ mb: 8 }}>
+            <Typography variant="h6" sx={{ fontWeight: 700, mb: 3 }}>Composición del portafolio</Typography>
+            <HoldingsList holdings={holdings} />
         </Box>
 
         {/* Investment Form */}
-        <Box sx={{ mt: 6, maxWidth: 600 }}>
-          <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
-            Invertir
-          </Typography>
-          <Typography variant="body2" sx={{ color: '#666', mb: 3 }}>
-            Disponible: <strong>{formatCurrency(user?.balance_clp || 0)}</strong>
-          </Typography>
-
-          {investmentSuccess ? (
-            <Typography sx={{ color: 'green', fontWeight: 'bold', textAlign: 'center', py: 4 }}>
-              ✓ ¡Inversión exitosa!
+        <Box sx={{ maxWidth: 500 }}>
+            <Typography variant="h5" sx={{ fontWeight: 800, mb: 1 }}>Invertir capital</Typography>
+            <Typography variant="body2" sx={{ color: '#6B7280', mb: 4, fontFamily: 'monospace' }}>
+                Balance: {formatCurrency(user?.balance_clp || 0)}
             </Typography>
-          ) : (
-            <form onSubmit={handleInvest}>
-              <InvestmentInput
-                value={investmentAmount}
-                onChange={setInvestmentAmount}
-                disabled={investing}
-              />
-              {investmentError && (
-                <Typography color="error" align="center" sx={{ mt: 2 }}>
-                  {String(investmentError)}
-                </Typography>
-              )}
-              <Button 
-                type="submit" 
-                disabled={investing} 
-                fullWidth 
-                size="large" 
-                sx={{ 
-                  mt: 3,
-                  backgroundColor: '#000',
-                  color: '#fff',
-                  borderRadius: '50px',
-                  py: 1.5,
-                  textTransform: 'none',
-                  fontSize: '1.1rem',
-                  fontWeight: 'bold',
-                  '&:hover': {
-                    backgroundColor: '#333'
-                  }
-                }}
-              >
-                {investing ? 'Procesando...' : 'Invertir'}
-              </Button>
-            </form>
-          )}
+
+            {investmentSuccess ? (
+                <Alert severity="success" sx={{ borderRadius: 0, mb: 4, border: '1px solid green' }}>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 700, fontFamily: 'monospace' }}>ORDER EXECUTED</Typography>
+                </Alert>
+            ) : (
+                <form onSubmit={handleInvest}>
+                    <Input
+                        fullWidth
+                        value={investmentAmount}
+                        onChange={(e) => setInvestmentAmount(e.target.value)}
+                        placeholder="0"
+                        disabled={investing}
+                        startAdornment={<InputAdornment position="start"><Typography variant="h4" sx={{ fontWeight: 300, color: '#9CA3AF' }}>$</Typography></InputAdornment>}
+                        endAdornment={<InputAdornment position="end"><Typography variant="h6" sx={{ fontWeight: 700, color: '#111827' }}>CLP</Typography></InputAdornment>}
+                        sx={{
+                            fontSize: '2.5rem', fontWeight: 700, fontFamily: 'monospace', color: '#111827', py: 1,
+                            '&:before': { borderBottom: '3px solid #E5E7EB' },
+                            '&:after': { borderBottom: '3px solid #111827' },
+                            '& input': { textAlign: 'right', mr: 2 }
+                        }}
+                    />
+                    {investmentError && <Typography color="error" sx={{ mt: 1, fontFamily: 'monospace', fontSize: '0.8rem', fontWeight: 700 }}>* {investmentError}</Typography>}
+                    <Button 
+                        type="submit" disabled={investing} fullWidth
+                        sx={{ 
+                            mt: 4, bgcolor: '#000', color: '#fff', borderRadius: 0, py: 2, // Square button = Punk
+                            fontSize: '1rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em',
+                            '&:hover': { bgcolor: '#222' },
+                            '&:disabled': { bgcolor: '#E5E7EB', color: '#9CA3AF' }
+                        }}
+                    >
+                        {investing ? 'Processing...' : 'Execute Order'}
+                    </Button>
+                </form>
+            )}
         </Box>
 
         {/* Disclaimer Link */}
-        <Typography 
-          onClick={() => setShowDisclaimer(true)}
-          sx={{ 
-            mt: 8, 
-            textAlign: 'center', 
-            color: 'text.secondary', 
-            cursor: 'pointer',
-            textDecoration: 'underline',
-            fontSize: '0.875rem'
-          }}
-        >
-          Ver Disclaimer
-        </Typography>
+        <Box sx={{ mt: 8 }}>
+             <Typography onClick={() => setShowDisclaimer(true)} variant="caption" sx={{ color: '#9CA3AF', cursor: 'pointer', textDecoration: 'underline', fontFamily: 'monospace' }}>
+                Disclaimer
+            </Typography>
+        </Box>
 
-        {/* Disclaimer Modal */}
         {showDisclaimer && (
-          <div data-component="modal" style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0,0,0,0.5)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1000
-          }}>
-            <div data-section="modal-content" style={{
-              backgroundColor: 'white',
-              padding: '30px',
-              borderRadius: '8px',
-              maxWidth: '500px',
-              width: '90%',
-              position: 'relative'
-            }}>
-              <button 
-                onClick={() => setShowDisclaimer(false)}
-                style={{
-                  position: 'absolute',
-                  top: '10px',
-                  right: '10px',
-                  background: 'none',
-                  border: 'none',
-                  fontSize: '24px',
-                  cursor: 'pointer'
-                }}
-              >
-                ×
-              </button>
-              <h2>Disclaimer</h2>
-              <p>El usuario reconoce y acepta que toda inversión implica riesgos, incluyendo la pérdida total o parcial del capital invertido y la posibilidad de fluctuaciones en los mercados financieros. Los resultados pasados no garantizan rendimientos futuros, y ninguna estrategia o servicio disponible en este sitio asegura beneficios económicos.
+          <Fade in={showDisclaimer}>
+            <Box sx={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, bgcolor: 'rgba(0,0,0,0.8)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => setShowDisclaimer(false)}>
+              <Box sx={{ bgcolor: 'white', p: 4, maxWidth: 500, mx: 2, border: '2px solid black' }} onClick={(e) => e.stopPropagation()}>
+                <Typography variant="h6" sx={{ fontWeight: 800, mb: 2, fontFamily: 'monospace' }}>RISK_DISCLOSURE</Typography>
+                <Typography variant="body2" sx={{fontFamily: 'monospace', fontSize: '0.8rem'}} paragraph>
+                    El usuario reconoce y acepta que toda inversión implica riesgos, incluyendo la pérdida total o parcial del capital invertido y la posibilidad de fluctuaciones en los mercados financieros. Los resultados pasados no garantizan rendimientos futuros, y ninguna estrategia o servicio disponible en este sitio asegura beneficios económicos.
 
 Las decisiones de inversión son adoptadas exclusivamente por el usuario bajo su propio criterio y responsabilidad. La empresa responsable de este sitio no asumirá responsabilidad por pérdidas, daños o consecuencias derivadas de tales decisiones, cualquiera sea su naturaleza.
 
-Al utilizar esta plataforma, el usuario declara haber comprendido y aceptado íntegramente los riesgos asociados a la inversión.</p>
-              <Button onClick={() => setShowDisclaimer(false)}>
-                Cerrar
-              </Button>
-            </div>
-          </div>
+Al utilizar esta plataforma, el usuario declara haber comprendido y aceptado íntegramente los riesgos asociados a la inversión.
+                </Typography>
+                <Button fullWidth onClick={() => setShowDisclaimer(false)} sx={{ mt: 2, color: 'white', bgcolor: 'black', fontWeight: 700, borderRadius: 0, '&:hover':{bgcolor:'#333'} }}>ACKNOWLEDGE</Button>
+              </Box>
+            </Box>
+          </Fade>
         )}
       </Container>
     </Box>
