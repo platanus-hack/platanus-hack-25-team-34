@@ -1,5 +1,7 @@
 [
-  {"name": "UserConPlata", "balance_clp": 1000000},
-  {"name": "UserPobre", "balance_clp": 20000},
-  {"name": "UserNormal", "balance_clp": 100000}
+  {"name": "Valentina Honorato", "balance_clp": 1000000},
+  {"name": "Daniel Croudo", "balance_clp": 500000},
+  {"name": "Germán Quijada", "balance_clp": 100000},
+  {"name": "Nicolás Cruzat", "balance_clp": 50000},
+  {"name": "Alonso Utreras", "balance_clp": 10000}
 ]

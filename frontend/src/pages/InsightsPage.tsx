@@ -18,27 +18,27 @@ const insights: Insight[] = [
     investor: 'BILL ACKMAN',
     ticker: 'GOOGL',
     title: 'Flamante nueva versión de Gemini enciende la acción de Alphabet',
-    description: 'Valor de la acción de Google se dispara el día martes tras la inauguración.',
+    description: '',
     tag: 'LANZAMIENTO',
-    imageUrl: 'https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Gemini_SS_KV.max-1300x1300.jpg'
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/c/c3/Sundar_Pichai_-_2023_%28cropped%29.jpg'
   },
   {
     id: 2,
-    investor: 'BILL ACKMAN',
-    ticker: 'GOOGL',
-    title: 'Flamante nueva versión de Gemini enciende la acción de Alphabet',
-    description: 'Valor de la acción de Google se dispara el día martes tras la inauguración.',
+    investor: 'NANCY PELOSI',
+    ticker: 'APPL',
+    title: 'Pelosi Index: cómo la expresidenta de la Cámara de Reprepresentantes de EEUU se convirtió en un referente del mercado accionario [DF]',
+    description: '',
     tag: 'LANZAMIENTO',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Xi_Jinping_2019.jpg/800px-Xi_Jinping_2019.jpg'
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Official_photo_of_Speaker_Nancy_Pelosi_in_2019.jpg/330px-Official_photo_of_Speaker_Nancy_Pelosi_in_2019.jpg'
   },
   {
     id: 3,
-    investor: 'BILL ACKMAN',
-    ticker: 'GOOGL',
-    title: 'Flamante nueva versión de Gemini enciende la acción de Alphabet',
-    description: 'Valor de la acción de Google se dispara el día martes tras la inauguración.',
+    investor: 'XI JINPING',
+    ticker: 'FTSE China A50',
+    title: '¿Llegó el momento de China? Lo que nos dicen sus resultados corporativos [Fintualist]',
+    description: '',
     tag: 'LANZAMIENTO',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Donald_Trump_official_portrait.jpg/800px-Donald_Trump_official_portrait.jpg'
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Xi_Jinping_2025_%28cropped%29.jpg/500px-Xi_Jinping_2025_%28cropped%29.jpg'
   }
 ];
 

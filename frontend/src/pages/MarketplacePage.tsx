@@ -70,19 +70,6 @@ const MarketplacePage: React.FC = () => {
             />
           ))}
         </Box>
-
-        <Box sx={{ mt: 6, textAlign: 'center' }}>
-          <Typography
-            variant="body1"
-            sx={{
-              color: '#666',
-              cursor: 'pointer',
-              '&:hover': { textDecoration: 'underline', color: '#333' },
-            }}
-          >
-            Ver nuestra más fina selección →
-          </Typography>
-        </Box>
       </Container>
     </Box>
   );
