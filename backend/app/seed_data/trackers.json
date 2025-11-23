@@ -2,16 +2,28 @@
   {
     "name": "Nancy Pelosi",
     "type": "politician",
-    "avatar_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Nancy_Pelosi_official_portrait_2019.jpg/220px-Nancy_Pelosi_official_portrait_2019.jpg",
+    "avatar_url": "https://kagi.com/proxy/Nancy-Pelosi-US-Capitol-2022.jpg?c=7tcY9U6FjrD8qA_wL4vLi_ZZxNCqR-h7fkTP0TL5FUE6xUb8Ex8tyESmYSty996GlWVxF_0TVGVYd-2Nt-YMInWbYJ9OqRzY9Hd51JW96o2zaThA9z04pRCKh7xNq7uh",
     "description": "Follow the trades of the former Speaker of the House.",
     "ytd_return": 25.5,
     "average_delay": 45,
     "risk_level": "High",
     "followers_count": 1200,
     "holdings": [
-      {"ticker": "NVDA", "company_name": "NVIDIA Corp", "allocation_percent": 40.0},
-      {"ticker": "MSFT", "company_name": "Microsoft Corp", "allocation_percent": 30.0},
-      {"ticker": "AAPL", "company_name": "Apple Inc", "allocation_percent": 30.0}
+      {
+        "ticker": "AAPL",
+        "company_name": "Apple Inc.",
+        "allocation_percent": 20.0
+      },
+      {
+        "ticker": "MSFT",
+        "company_name": "Microsoft Corporation",
+        "allocation_percent": 18.0
+      },
+      {
+        "ticker": "GOOGL",
+        "company_name": "Alphabet Inc.",
+        "allocation_percent": 12.0
+      }
     ]
   },
   {
@@ -24,9 +36,48 @@
     "risk_level": "Low",
     "followers_count": 5000,
     "holdings": [
-      {"ticker": "AAPL", "company_name": "Apple Inc", "allocation_percent": 50.0},
-      {"ticker": "BAC", "company_name": "Bank of America", "allocation_percent": 20.0},
-      {"ticker": "AXP", "company_name": "American Express", "allocation_percent": 30.0}
+      {
+        "ticker": "AAPL",
+        "company_name": "Apple Inc",
+        "allocation_percent": 23.0
+      },
+      {
+        "ticker": "BAC",
+        "company_name": "Bank of America",
+        "allocation_percent": 8.9
+      },
+      {
+        "ticker": "AXP",
+        "company_name": "American Express",
+        "allocation_percent": 7.8
+      }
+    ]
+  },
+  {
+    "name": "Li Lu",
+    "type": "fund",
+    "avatar_url": "https://kagi.com/proxy/1ecadeff8a994324a6acf03d1d4f5553.jpg?c=kAgVLe1ShiygUsBxLqrNIsxxa45eu8F-BxQfW-x9eL6biAxnc5L4L6Quf4P_kTWyDAgIX2yhEC48RCLqOJXkQe_5yd3-r5CidOkIKTxTy3So4ewRRiB9NSfQtvpKkAzZAUiCVKrrjd6A44pq3rq-vg%3D%3D",
+    "description": "Li Lu is a value investor and Charlie Munger protégé specializing in Asian markets through his firm Himalaya Capital Management.",
+    "ytd_return": 15.2,
+    "average_delay": 90,
+    "risk_level": "Low",
+    "followers_count": 5000,
+    "holdings": [
+      {
+        "ticker": "GOOGL",
+        "company_name": "Alphabet Inc.",
+        "allocation_percent": 19.0
+      },
+      {
+        "ticker": "PDD",
+        "company_name": "Pinduoduo Inc.",
+        "allocation_percent": 19.0
+      },
+      {
+        "ticker": "GOOG",
+        "company_name": "Alphabet Inc.",
+        "allocation_percent": 18.0
+      }
     ]
   }
 ]
