@@ -12,7 +12,7 @@ const HoldingsList: React.FC<HoldingsListProps> = ({ holdings }) => {
     <Box sx={{ width: '100%', maxWidth: 600 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
         <Typography variant="h6" sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
-          Composición del portafolio (Top 3)
+          Composición del portafolio
         </Typography>
       </Box>
 
