@@ -5,7 +5,7 @@ import {
   Box, 
   Typography, 
   Avatar, 
-  Chip, 
+  Chip,
   Stack 
 } from '@mui/material';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
@@ -95,9 +95,8 @@ const TrackerCard: React.FC<TrackerCardProps> = ({ tracker, onClick }) => {
                 {tracker.name}
               </Typography>
               
-              {/* 2. Hierarchy: The Type is now a 'Tag', not just gray text */}
               <Chip 
-                label={tracker.type || 'Fondo'} 
+                label={tracker.type === 'politician' ? 'POLÍTICO' : 'FONDO'} 
                 size="small"
                 sx={{
                   height: 20,
