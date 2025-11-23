@@ -1,4 +1,5 @@
 {
   "project-name": "Hedgie",
-  "project-description-spanish": "Plataforma de inversión basada en seguimiento automático de inversionistas"
+  "project-description-spanish": "Plataforma de inversión basada en seguimiento automático de inversionistas",
+  "deploy-url": "http://56.124.111.149:5173/marketplace"
 }
