@@ -88,6 +88,22 @@ const TrackerDetailPage: React.FC = () => {
     <Box sx={{ pb: 12, pt: 4 }}> 
       <Container maxWidth="md">
         
+    <Box sx={{ backgroundColor: '#fff', minHeight: '100vh', pb: 8 }}>
+      {/* <Navbar /> */}
+
+      <Container maxWidth="lg" sx={{ mt: 4 }}>
+        {/* Breadcrumbs */}
+        <Breadcrumbs 
+          separator={<NavigateNextIcon fontSize="small" />} 
+          aria-label="breadcrumb"
+          sx={{ mb: 2, color: '#666', display: { xs: 'flex', md: 'none' } }}
+        >
+          <Link underline="hover" color="inherit" href="/marketplace">
+            fund
+          </Link>
+          <Typography color="text.primary">{tracker.name}</Typography>
+        </Breadcrumbs>
+
         {/* Header */}
         <Box sx={{ mb: 4 }}>
             <Button 

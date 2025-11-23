@@ -4,7 +4,7 @@ import { userApi } from '../services/api';
 import { formatCLP, formatUSD, convertClpToUsd, CLP_TO_USD_RATE } from '../config/constants';
 import { Box, Container, Typography, Alert } from '@mui/material';
 import type { BalanceResponse } from '../types';
-import Navbar from '../components/Navbar';
+// import Navbar from '../components/Navbar';
 import BalanceCard from '../components/BalanceCard';
 import TransactionCard from '../components/TransactionCard';
 
@@ -115,7 +115,7 @@ const UserAccountPage: React.FC = () => {
   if (fetchingBalance) {
     return (
       <Box sx={{ backgroundColor: '#f5f5f5', minHeight: '100vh' }}>
-        <Navbar />
+        {/* <Navbar /> */}
         <Container maxWidth="lg" sx={{ mt: 4 }}>
           <Typography>Cargando balance...</Typography>
         </Container>
@@ -125,7 +125,7 @@ const UserAccountPage: React.FC = () => {
 
   return (
     <Box sx={{ backgroundColor: '#f5f5f5', minHeight: '100vh', pb: 8 }}>
-      <Navbar />
+      {/* <Navbar /> */}
       
       <Container maxWidth="lg" sx={{ mt: 4 }}>
         <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 4 }}>
