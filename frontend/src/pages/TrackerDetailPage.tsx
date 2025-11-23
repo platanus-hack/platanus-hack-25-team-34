@@ -186,7 +186,7 @@ const TrackerDetailPage: React.FC = () => {
           </Box>
 
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Typography variant="body1" sx={{ color: '#666' }}>Retraso:</Typography>
+            <Typography variant="body1" sx={{ color: '#666' }}>Retraso promedio:</Typography>
             <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
               {tracker.average_delay} días
             </Typography>
